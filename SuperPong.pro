@@ -17,11 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    tokentimer.cpp
 
 HEADERS += \
     mainwindow.h \
-    message.h
+    message.h \
+    tokentimer.h
 
 FORMS += \
     mainwindow.ui
