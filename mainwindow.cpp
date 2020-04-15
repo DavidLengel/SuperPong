@@ -19,3 +19,22 @@ void MainWindow::populateTextEdit()
     ui->historyList->addItem("Cool Dude 66");
     ui->paddle1->move(ui->paddle1->x(), rand() % 360 + 40);
 }
+
+void MainWindow::spawnPowerup()
+{
+    QLabel *powerup = new QLabel("powerup");
+    powerup->setFrameStyle(QFrame::Plain);
+    powerup->setText("Testaroonie");
+    powerup->move(200, 200);
+//    switch(/*rand() % 3*/0)
+//    {
+//    case 0:
+//        break;
+//    case 1:
+//        break;
+//    case 2:
+//        break;
+//    default:
+//        printf("ERROR: Spawn Powerup Failed\n");
+//    }
+}
