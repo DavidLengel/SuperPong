@@ -13,3 +13,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::populateTextEdit()
+{
+    ui->listWidget->addItem("Cool Dude 66");
+}
