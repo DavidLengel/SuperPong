@@ -17,7 +17,7 @@ MainWindow::~MainWindow()
 void MainWindow::populateTextEdit()
 {
     ui->historyList->addItem("Cool Dude 66");
-    ui->paddle1->move(ui->paddle1->x(), rand() % 360 + 40);
+    ui->paddle1->move(ui->paddle1->x(), rand() % (ui->gameField->height() - ui->paddle1->height()) + ui->gameField->y());
 }
 
 void MainWindow::spawnPowerup()
@@ -26,6 +26,7 @@ void MainWindow::spawnPowerup()
     powerup->setFrameStyle(QFrame::Plain);
     powerup->setText("Testaroonie");
     powerup->move(200, 200);
+    ui->horizontalLayout->addWidget(powerup);
 //    switch(/*rand() % 3*/0)
 //    {
 //    case 0:
