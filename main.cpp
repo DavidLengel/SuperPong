@@ -39,9 +39,6 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    pthread_join(thread_consumer, NULL);
-    pthread_join(thread_producer, NULL);
-
     return a.exec();
 }
 
