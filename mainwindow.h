@@ -17,6 +17,7 @@ public:
 
 private slots:
     void populateTextEdit();
+    void spawnPowerup();
 
 private:
     Ui::MainWindow *ui;
