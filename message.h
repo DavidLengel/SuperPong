@@ -22,7 +22,8 @@ class Message
         Message()   // default constructor
         {
             read_index = 0;
-            dirty = {0,0};
+            dirty[read_index] = 0;
+            dirty[!read_index] = 0;
 
             // initialize binary semaphores
             sem_init(&read_sems[0],0,1);
@@ -42,20 +43,21 @@ class Message
         //-----------------------------------------------------------
         bool getMessage(T &value)
         {
+            int cur_index = (int)read_index;
             // procure read semaphore
-            sem_wait(&read_sems[read_index]);
+            sem_wait(&read_sems[cur_index]);
             // if not dirty, return false
-            if(!dirty[read_index])
+            if(!dirty[cur_index]) {
+                sem_post(&read_sems[cur_index]);
                 return false;
+            }
             // else, if it is dirty
             // place value into the passed-in value
-            value = values[read_index];
+            value = values[cur_index];
             // reset dirty flag
-            dirty[read_index] = 0;
-            // update read index
-            read_index = !read_index;
+            dirty[cur_index] = 0;
             // vacate the semaphore that was procured at the start
-            sem_post(&read_sems[!read_index]);
+            sem_post(&read_sems[cur_index]);
             // return true
             return true;
         }
@@ -66,24 +68,22 @@ class Message
         //              a buffer. Handles writing data to the correct
         //              buffer and indicating if the data has changed
         //              since the last write.
-        //   Inputs: T to copy into the correct value,
-        //           bool to say if the value has changed
+        //   Inputs: T to copy into the correct value
         //  Outputs: void
         //-----------------------------------------------------------
-        void putMessage(T value, bool incoming_dirty)
+        void putMessage(T value)
         {
+            int cur_index = (int)!read_index;
             // procure semaphore on the buffer that shouldn't be being accessed by the reader
-            sem_wait(&read_sems[!read_index]);
-            // if not dirty, return
-            if(!incoming_dirty)
-                return;
-            // if it is dirty
+            sem_wait(&read_sems[cur_index]);
             // place value that was passed in into the message values
-            values[!read_index] = value;
+            values[cur_index] = value;
             // set the dirty flag
-            dirty[!read_index] = 1;
+            dirty[cur_index] = 1;
+            // update read index
+            read_index = !read_index;
             // vacate the semaphore that was procured at the start
-            sem_post(&read_sems[!read_index]);
+            sem_post(&read_sems[cur_index]);
         }
 
 };
