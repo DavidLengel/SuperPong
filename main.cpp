@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "message.h"
+#include "ball.h"
 #include <unistd.h>
 #include <pthread.h>
 
@@ -12,7 +13,7 @@ static const int sleep_time = 1000000;
 
 typedef struct thread_arguments
 {
-    Message<char> *charMessage_p;
+    Message<Ball> *ballMessage_p;
 } thread_arguments_t;
 
 static thread_arguments_t arguments;
@@ -25,8 +26,8 @@ int main(int argc, char *argv[])
 
     // threads
     pthread_t thread_consumer, thread_producer;
-    Message<char> charMessage;
-    arguments.charMessage_p = &charMessage;
+    Message<Ball> ballMessage;
+    arguments.ballMessage_p = &ballMessage;
 
     if(pthread_create(&thread_producer, NULL, thread_producer_fn, NULL) != 0)
     {
@@ -44,29 +45,32 @@ int main(int argc, char *argv[])
 
 void *thread_producer_fn(void *args)
 {
-    Message<char> *charMessage = arguments.charMessage_p;
+    Message<Ball> *ballMessage = arguments.ballMessage_p;
 
-    char printme = 'a';
+    Ball ball;
+
+    //char printme = 'a';
     while(true) {
-        charMessage->putMessage(printme);
-        printme++;
-        if(printme > 'z') {
-            printme = 'a';
-        }
+        // update ball variables
+        int new_x = rand() % 100;
+        int new_y = rand() % 100;
+        ball.setLocation(new_x, new_y);
+        ballMessage->putMessage(ball);
+
         usleep(sleep_time);
     }
 }
 
 void *thread_consumer_fn(void *args)
 {
-    Message<char> *charMessage = arguments.charMessage_p;
-    char messageHolder;
+    Message<Ball> *ballMessage = arguments.ballMessage_p;
 
+    Ball ball;
 
     while(true) {
-        if(charMessage->getMessage(messageHolder))
+        if(ballMessage->getMessage(ball))
         {
-            cout << "Received " << messageHolder << endl;
+            cout << "Received (" << ball.getLocation().first << ", " << ball.getLocation().second << ")." << endl;
         }
         usleep(sleep_time);
     }
