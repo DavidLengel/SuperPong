@@ -17,6 +17,10 @@ public:
     void moveBall(int,int);
     void moveLeftPaddle(int);
     void moveRightPaddle(int);
+    int checkWallCollision();
+    int checkPaddleCollision();
+    int checkGoalCollision();
+    void gameOver(int);
 
 private slots:
     void populateTextEdit();

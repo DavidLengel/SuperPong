@@ -36,7 +36,7 @@ class MovingObject
         void setXVelocity(int);
         int getYVelocity();
         void setYVelocity(int);
-
+        void move();
 };
 
 #endif // MOVINGOBJECT_H
