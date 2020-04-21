@@ -55,6 +55,8 @@ void *thread_producer_fn(void *args)
         int new_x = rand() % 100;
         int new_y = rand() % 100;
         ball.setLocation(new_x, new_y);
+        ball.setXVelocity(2);
+        ball.setYVelocity(2);
         ballMessage->putMessage(ball);
 
         usleep(sleep_time);
@@ -70,7 +72,9 @@ void *thread_consumer_fn(void *args)
     while(true) {
         if(ballMessage->getMessage(ball))
         {
-            cout << "Received (" << ball.getLocation().first << ", " << ball.getLocation().second << ")." << endl;
+            cout << "Received (X: " << ball.getLocation().first << ", Y: " << ball.getLocation().second << ", X_Vel: " <<
+                    ball.getXVelocity() << ", Y_Vel: " << ball.getYVelocity() << endl;
+
         }
         usleep(sleep_time);
     }

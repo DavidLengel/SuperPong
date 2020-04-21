@@ -17,6 +17,7 @@ MainWindow::~MainWindow()
 void MainWindow::populateTextEdit()
 {
     ui->historyList->addItem("Cool Dude 66");
+    //paddle moves between top wall and bottom wall
     ui->paddle1->move(ui->paddle1->x(), rand() % (ui->gameField->height() - ui->paddle1->height()) + ui->gameField->y());
 }
 
@@ -27,15 +28,15 @@ void MainWindow::spawnPowerup()
     powerup->setText("Testaroonie");
     powerup->move(200, 200);
     ui->horizontalLayout->addWidget(powerup);
-//    switch(/*rand() % 3*/0)
-//    {
-//    case 0:
-//        break;
-//    case 1:
-//        break;
-//    case 2:
-//        break;
-//    default:
-//        printf("ERROR: Spawn Powerup Failed\n");
-//    }
+    switch(rand() % 3)
+    {
+    case 0:
+        break;
+    case 1:
+        break;
+    case 2:
+        break;
+    default:
+        printf("ERROR: Spawn Powerup Failed\n");
+    }
 }
