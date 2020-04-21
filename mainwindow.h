@@ -14,6 +14,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void moveBall(int,int);
+    void moveLeftPaddle(int);
+    void moveRightPaddle(int);
 
 private slots:
     void populateTextEdit();

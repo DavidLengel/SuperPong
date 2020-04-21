@@ -21,6 +21,7 @@ SOURCES += \
     mainwindow.cpp \
     movingobject.cpp \
     powerup.cpp \
+    paddle.cpp \
     tokentimer.cpp
 
 HEADERS += \
@@ -29,6 +30,7 @@ HEADERS += \
     message.h \
     movingobject.h \
     powerup.h \
+    paddle.h \
     tokentimer.h
 
 FORMS += \
