@@ -20,6 +20,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     movingobject.cpp \
+    paddle.cpp \
     tokentimer.cpp
 
 HEADERS += \
@@ -27,6 +28,7 @@ HEADERS += \
     mainwindow.h \
     message.h \
     movingobject.h \
+    paddle.h \
     tokentimer.h
 
 FORMS += \

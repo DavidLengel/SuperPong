@@ -39,3 +39,18 @@ void MainWindow::spawnPowerup()
 //        printf("ERROR: Spawn Powerup Failed\n");
 //    }
 }
+
+void MainWindow::moveBall(int x_coord, int y_coord)
+{
+    ui->ball->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
+}
+
+void MainWindow::moveLeftPaddle(int y_coord)
+{
+    ui->paddle1->move(ui->paddle1->x(), ui->gameField->y()+y_coord);
+}
+
+void MainWindow::moveRightPaddle(int y_coord)
+{
+    ui->paddle2->move(ui->paddle2->x(), ui->gameField->y()+y_coord);
+}
