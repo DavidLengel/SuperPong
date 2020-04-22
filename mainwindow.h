@@ -22,6 +22,9 @@ public:
     int checkGoalCollision();
     void gameOver(int);
 
+protected:
+    void keyPressEvent(QKeyEvent*);
+
 private slots:
     void populateTextEdit();
     void spawnPowerup();

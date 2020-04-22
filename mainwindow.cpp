@@ -1,12 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QThread>
+#include <QKeyEvent>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    grabKeyboard();
+//    installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -108,4 +112,23 @@ void MainWindow::gameOver(int winner)
         ui->p1Score->setText(QString::number((ui->p1Score->text().toInt()) + 1));
     else
         ui->p2Score->setText(QString::number((ui->p2Score->text().toInt()) + 1));
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key())
+    {
+        case Qt::Key_W:
+            ui->paddle1->move(ui->paddle1->x(), ui->paddle1->y()-30);
+            break;
+        case Qt::Key_S:
+            ui->paddle1->move(ui->paddle1->x(), ui->paddle1->y()+30);
+            break;
+        case Qt::Key_Up:
+            ui->paddle2->move(ui->paddle2->x(), ui->paddle2->y()-30);
+            break;
+        case Qt::Key_Down:
+            ui->paddle2->move(ui->paddle2->x(), ui->paddle2->y()+30);
+            break;
+    }
 }
