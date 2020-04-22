@@ -15,8 +15,8 @@ static const int sleep_time = 5000;
 typedef struct thread_arguments
 {
     Message<Ball> *ballMessage_p;
-    Message<Paddle> *leftPaddleMessage_p;
-    Message<Paddle> *rightPaddleMessage_p;
+    //Message<Paddle> *leftPaddleMessage_p;
+    //Message<Paddle> *rightPaddleMessage_p;
     Message<int> *gameMessage_p;
 } thread_arguments_t;
 
@@ -31,12 +31,12 @@ int main(int argc, char *argv[])
     // threads
     pthread_t thread_consumer, thread_producer;
     Message<Ball> ballMessage;
-    Message<Paddle> leftPaddleMessage;
-    Message<Paddle> rightPaddleMessage;
+    //Message<Paddle> leftPaddleMessage;
+    //Message<Paddle> rightPaddleMessage;
     Message<int> gameMessage;
     arguments.ballMessage_p = &ballMessage;
-    arguments.leftPaddleMessage_p = &leftPaddleMessage;
-    arguments.rightPaddleMessage_p = &rightPaddleMessage;
+    //arguments.leftPaddleMessage_p = &leftPaddleMessage;
+    //arguments.rightPaddleMessage_p = &rightPaddleMessage;
     arguments.gameMessage_p = &gameMessage;
 
     if(pthread_create(&thread_producer, NULL, thread_producer_fn, &w) != 0)
@@ -58,8 +58,8 @@ void *thread_producer_fn(void *args)
     MainWindow *window = (MainWindow *)args;
 
     Message<Ball> *ballMessage = arguments.ballMessage_p;
-    Message<Paddle> *leftPaddleMessage = arguments.leftPaddleMessage_p;
-    Message<Paddle> *rightPaddleMessage = arguments.rightPaddleMessage_p;
+    //Message<Paddle> *leftPaddleMessage = arguments.leftPaddleMessage_p;
+    //Message<Paddle> *rightPaddleMessage = arguments.rightPaddleMessage_p;
     Message<int> *gameMessage = arguments.gameMessage_p;
 
     Ball ball(100, 50, 10, 10);
@@ -73,14 +73,16 @@ void *thread_producer_fn(void *args)
         // update ball variables
         ball.move();
         ballMessage->putMessage(ball);
+
         // update left paddle variables
-//        int new_y = rand() % 100;
-//        leftPaddle.setYLocation(new_y);
-//        leftPaddleMessage->putMessage(leftPaddle);
-//        // update right paddle variables
-//        new_y = rand() % 100;
-//        rightPaddle.setYLocation(new_y);
-//        rightPaddleMessage->putMessage(rightPaddle);
+        // int new_y = rand() % 100;
+        // leftPaddle.setYLocation(new_y);
+        // leftPaddleMessage->putMessage(leftPaddle);
+        // update right paddle variables
+        // new_y = rand() % 100;
+        // rightPaddle.setYLocation(new_y);
+        // rightPaddleMessage->putMessage(rightPaddle);
+
         // check wall collision
         int currentWallCollision = window->checkWallCollision();
         if (lastWallCollided != currentWallCollision && currentWallCollision != 0)
@@ -110,13 +112,13 @@ void *thread_consumer_fn(void *args)
     MainWindow *window = (MainWindow *)args;
 
     Message<Ball> *ballMessage = arguments.ballMessage_p;
-    Message<Paddle> *leftPaddleMessage = arguments.leftPaddleMessage_p;
-    Message<Paddle> *rightPaddleMessage = arguments.rightPaddleMessage_p;
+    //Message<Paddle> *leftPaddleMessage = arguments.leftPaddleMessage_p;
+    //Message<Paddle> *rightPaddleMessage = arguments.rightPaddleMessage_p;
     Message<int> *gameMessage = arguments.gameMessage_p;
 
     Ball ball;
-    Paddle leftPaddle;
-    Paddle rightPaddle;
+    //Paddle leftPaddle;
+    //Paddle rightPaddle;
     int winner;
 
     while(true) {
@@ -126,16 +128,16 @@ void *thread_consumer_fn(void *args)
                     //ball.getXVelocity() << ", Y_Vel: " << ball.getYVelocity() << endl;
             window->moveBall(ball.getLocation().first, ball.getLocation().second);
         }
-        if(leftPaddleMessage->getMessage(leftPaddle))
-        {
-            //cout << "Received (" << leftPaddle.getYLocation() << ")." << endl;
-            window->moveLeftPaddle(leftPaddle.getYLocation());
-        }
-        if(rightPaddleMessage->getMessage(rightPaddle))
-        {
-            //cout << "Received (" << rightPaddle.getYLocation() << ")." << endl;
-            window->moveRightPaddle(rightPaddle.getYLocation());
-        }
+        //if(leftPaddleMessage->getMessage(leftPaddle))
+        //{
+        //    //cout << "Received (" << leftPaddle.getYLocation() << ")." << endl;
+        //    window->moveLeftPaddle(leftPaddle.getYLocation());
+        //}
+        //if(rightPaddleMessage->getMessage(rightPaddle))
+        //{
+        //    //cout << "Received (" << rightPaddle.getYLocation() << ")." << endl;
+        //    window->moveRightPaddle(rightPaddle.getYLocation());
+        //}
         if(gameMessage->getMessage(winner))
         {
             window->gameOver(winner);
