@@ -1561,7 +1561,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>460</y>
+      <y>457</y>
       <width>680</width>
       <height>3</height>
      </rect>
@@ -3573,9 +3573,9 @@ color: red;</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
+   <zorder>gameField</zorder>
    <zorder>historyList</zorder>
    <zorder>pushButton</zorder>
-   <zorder>gameField</zorder>
    <zorder>p1ScoreLabel</zorder>
    <zorder>p1Score</zorder>
    <zorder>p2ScoreLabel</zorder>
@@ -3593,8 +3593,8 @@ color: red;</string>
    <zorder>gameCountLabel</zorder>
    <zorder>gameCount</zorder>
    <zorder>goal1</zorder>
-   <zorder>topWall</zorder>
    <zorder>goal2</zorder>
+   <zorder>topWall</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -3636,7 +3636,7 @@ color: red;</string>
    <hints>
     <hint type="sourcelabel">
      <x>807</x>
-     <y>473</y>
+     <y>471</y>
     </hint>
     <hint type="destinationlabel">
      <x>113</x>
