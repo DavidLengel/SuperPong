@@ -58,11 +58,11 @@ void MainWindow::moveRightPaddle(int y_coord)
 // Return 1 if top wall, 2 if bottom wall, 0 if false
 int MainWindow::checkWallCollision()
 {
-    if((ui->topWall->y()+(ui->ball->height()/2)) >= ui->ball->y())
+    if((ui->topWall->y() + ui->topWall->height()) >= ui->ball->y())
     {
         return 1;
     }
-    else if((ui->bottomWall->y()-(ui->ball->height()/2)) <= ui->ball->y())
+    else if(ui->bottomWall->y() <= ui->ball->y() + ui->ball->height())
     {
         return 2;
     }
