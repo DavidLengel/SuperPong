@@ -62,7 +62,7 @@ void *thread_producer_fn(void *args)
     Message<Paddle> *rightPaddleMessage = arguments.rightPaddleMessage_p;
     Message<int> *gameMessage = arguments.gameMessage_p;
 
-    Ball ball(100, 50, 5, 5);
+    Ball ball(100, 50, 10, 10);
     Paddle leftPaddle(0);
     Paddle rightPaddle(1);
     int lastWallCollided = 0;
