@@ -510,9 +510,9 @@
    <widget class="QLabel" name="p1ScoreLabel">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>740</x>
       <y>110</y>
-      <width>101</width>
+      <width>111</width>
       <height>31</height>
      </rect>
     </property>
@@ -1013,7 +1013,7 @@
      <rect>
       <x>890</x>
       <y>110</y>
-      <width>101</width>
+      <width>111</width>
       <height>31</height>
      </rect>
     </property>

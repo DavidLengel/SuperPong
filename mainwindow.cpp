@@ -109,9 +109,9 @@ int MainWindow::checkGoalCollision()
 void MainWindow::gameOver(int winner)
 {
     if (winner == 1)
-        ui->p1Score->setText(QString::number((ui->p1Score->text().toInt()) + 1));
-    else
         ui->p2Score->setText(QString::number((ui->p2Score->text().toInt()) + 1));
+    else
+        ui->p1Score->setText(QString::number((ui->p1Score->text().toInt()) + 1));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -119,16 +119,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
         case Qt::Key_W:
-            ui->paddle1->move(ui->paddle1->x(), ui->paddle1->y()-30);
+            ui->paddle1->move(ui->paddle1->x(), ui->paddle1->y()-std::min(30,(ui->paddle1->y()-ui->topWall->y()-ui->topWall->height())));
             break;
         case Qt::Key_S:
-            ui->paddle1->move(ui->paddle1->x(), ui->paddle1->y()+30);
+            ui->paddle1->move(ui->paddle1->x(), ui->paddle1->y()+std::min(30,(ui->bottomWall->y()-ui->paddle1->y()-ui->paddle1->height())));
             break;
         case Qt::Key_Up:
-            ui->paddle2->move(ui->paddle2->x(), ui->paddle2->y()-30);
+            ui->paddle2->move(ui->paddle2->x(), ui->paddle2->y()-std::min(30,(ui->paddle2->y()-ui->topWall->y()-ui->topWall->height())));
             break;
         case Qt::Key_Down:
-            ui->paddle2->move(ui->paddle2->x(), ui->paddle2->y()+30);
+            ui->paddle2->move(ui->paddle2->x(), ui->paddle2->y()+std::min(30,(ui->bottomWall->y()-ui->paddle2->y()-ui->paddle2->height())));
             break;
     }
 }
