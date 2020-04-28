@@ -28,6 +28,8 @@ class Message
             // initialize binary semaphores
             sem_init(&read_sems[0],0,1);
             sem_init(&read_sems[1],0,1);
+
+            cout << "Created message with read index " << read_index << endl;
         }
         ~Message()  // destructor
         {}
@@ -43,8 +45,10 @@ class Message
         //-----------------------------------------------------------
         bool getMessage(T &value)
         {
+            cout << "Get message index: " << read_index << endl;
             int cur_index = (int)read_index;
             // procure read semaphore
+            cout << "Getting message with semaphore " << cur_index << endl;
             sem_wait(&read_sems[cur_index]);
             // if not dirty, return false
             if(!dirty[cur_index]) {
@@ -73,9 +77,12 @@ class Message
         //-----------------------------------------------------------
         void putMessage(T value)
         {
+            cout << "Put message index: " << read_index << endl;
             int cur_index = (int)!read_index;
+            cout << "Putting message with semaphore " << cur_index << endl;
             // procure semaphore on the buffer that shouldn't be being accessed by the reader
             sem_wait(&read_sems[cur_index]);
+            cout << "Semaphore procured" << endl;
             // place value that was passed in into the message values
             values[cur_index] = value;
             // set the dirty flag
