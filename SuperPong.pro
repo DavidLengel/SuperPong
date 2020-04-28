@@ -17,8 +17,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     ball.cpp \
+    gamemanager.cpp \
     main.cpp \
     mainwindow.cpp \
+    matchmanager.cpp \
     movingobject.cpp \
     powerup.cpp \
     paddle.cpp \
@@ -26,7 +28,9 @@ SOURCES += \
 
 HEADERS += \
     ball.h \
+    gamemanager.h \
     mainwindow.h \
+    matchmanager.h \
     message.h \
     movingobject.h \
     powerup.h \
