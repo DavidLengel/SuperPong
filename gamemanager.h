@@ -6,6 +6,7 @@ class GameManager
 {
 public:
     GameManager();
+    int run();
 };
 
 #endif // GAMEMANAGER_H

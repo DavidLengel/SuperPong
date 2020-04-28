@@ -4,3 +4,8 @@ GameManager::GameManager()
 {
 
 }
+
+int GameManager::run()
+{
+
+}
