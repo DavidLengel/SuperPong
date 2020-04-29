@@ -8,8 +8,7 @@
 
 #include <QApplication>
 
-//void *thread_producer_fn(void *);
-//void *thread_consumer_fn(void *);
+void *game_thread_fn(void *);
 
 //static const int sleep_time = 5000;
 
@@ -25,80 +24,41 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    GameManager gm;
-    //cout << "Game returned " << gm.run() << endl;
-
     MainWindow w;
     w.show();
 
-    gm.run(w);
+    pthread_t game_thread;
+    //cout << "Game returned " << gm.run() << endl;
+
+    if(pthread_create(&game_thread, NULL, game_thread_fn, &w) != 0)
+    {
+        perror("Play thread creation failed.");
+        exit(1);
+    }
+
+    a.exec();
+
+    pthread_join(game_thread, NULL);
 
     cout << "Returned to main" << endl;
 
-
-    // threads
-//    pthread_t thread_consumer, thread_producer;
-//    Message<Ball> ballMessage;
-//    Message<int> gameMessage;
-//    arguments.ballMessage_p = &ballMessage;
-//    arguments.gameMessage_p = &gameMessage;
-
-//    if(pthread_create(&thread_producer, NULL, thread_producer_fn, &w) != 0)
-//    {
-//        perror("Thread producer creation failed.");
-//        exit(1);
-//    }
-//    if(pthread_create(&thread_consumer, NULL, thread_consumer_fn, &w) != 0)
-//    {
-//        perror("Thread consumer creation failed.");
-//        exit(1);
-//    }
-
-    return a.exec();
+    return 0;
 }
 
-//void *thread_producer_fn(void *args)
-//{
-//    MainWindow *window = (MainWindow *)args;
+void *game_thread_fn(void *args)
+{
+    MainWindow *w = (MainWindow *)args;
 
-//    Message<Ball> *ballMessage = arguments.ballMessage_p;
-//    Message<int> *gameMessage = arguments.gameMessage_p;
+    GameManager gm;
 
-//    Ball ball(100, 50, 10, 10);
-//    Paddle leftPaddle(0);
-//    Paddle rightPaddle(1);
-//    int lastWallCollided = 0;
-//    int lastPaddleCollided = 0;
+    while(1) {
+        cout << "Starting a game" << endl;
+        int winner = gm.run(*w);
+        cout << "Winner: " << winner << endl;
+    }
 
-//    //char printme = 'a';
-//    while(true) {
-//        // update ball variables
-//        ball.move();
-//        ballMessage->putMessage(ball);
-
-//        // check wall collision
-//        int currentWallCollision = window->checkWallCollision();
-//        if (lastWallCollided != currentWallCollision && currentWallCollision != 0)
-//        {
-//            ball.collideWall();
-//            lastWallCollided = currentWallCollision;
-//        }
-//        int currentPaddleCollision = window->checkPaddleCollision();
-//        if (lastPaddleCollided != currentPaddleCollision && currentPaddleCollision != 0)
-//        {
-//            ball.collidePaddle();
-//            lastPaddleCollided = currentPaddleCollision;
-//        }
-//        int collidedGoal = window->checkGoalCollision();
-//        if (collidedGoal != 0)
-//        {
-//            gameMessage->putMessage(collidedGoal);
-//            pthread_exit(NULL);
-//        }
-
-//        //usleep(sleep_time);
-//    }
-//}
+    pthread_exit(NULL);
+}
 
 //void *thread_consumer_fn(void *args)
 //{

@@ -8,10 +8,12 @@ static const int sleep_time = 5000;
 typedef struct thread_arguments
 {
     Message<Ball> *ballMessage_p;
-    Message<int> *gameMessage_p;
+    MainWindow *w_p;
+    bool gameActive;
+    int winner;
 } thread_arguments_t;
 
-static thread_arguments_t arguments;
+//static thread_arguments_t arguments;
 
 GameManager::GameManager()
 {
@@ -23,6 +25,8 @@ int GameManager::run(MainWindow& w)
 //    MainWindow w;
 //    w.show();
 
+    thread_arguments_t arguments;
+
     cout << "here" << endl;
 
     // threads
@@ -30,33 +34,41 @@ int GameManager::run(MainWindow& w)
     Message<Ball> ballMessage;
     Message<int> gameMessage;
     arguments.ballMessage_p = &ballMessage;
-    arguments.gameMessage_p = &gameMessage;
+    arguments.w_p = &w;
+    arguments.gameActive = true;
+    arguments.winner = 0;
 
-    if(pthread_create(&thread_producer, NULL, thread_producer_fn, &w) != 0)
+    if(pthread_create(&thread_producer, NULL, thread_producer_fn, &arguments) != 0)
     {
         perror("Thread producer creation failed.");
         exit(1);
     }
-    if(pthread_create(&thread_consumer, NULL, thread_consumer_fn, &w) != 0)
+    if(pthread_create(&thread_consumer, NULL, thread_consumer_fn, &arguments) != 0)
     {
         perror("Thread consumer creation failed.");
         exit(1);
     }
 
-//    pthread_join(thread_producer, NULL);
-//    pthread_join(thread_consumer, NULL);
+    pthread_join(thread_producer, NULL);
+    pthread_join(thread_consumer, NULL);
 
-    return 1;
+    return arguments.winner;
 }
 
 void *thread_producer_fn(void *args)
 {
     cout << "Producer entered" << endl;
 
-    MainWindow *window = (MainWindow *)args;
+    //MainWindow *window = (MainWindow *)args;
+    thread_arguments_t *arguments = (thread_arguments_t *)args;
 
-    Message<Ball> *ballMessage = arguments.ballMessage_p;
-    Message<int> *gameMessage = arguments.gameMessage_p;
+//    Message<Ball> *ballMessage = arguments.ballMessage_p;
+//    Message<int> *gameMessage = arguments.gameMessage_p;
+
+    Message<Ball> *ballMessage = arguments->ballMessage_p;
+    MainWindow *window = arguments->w_p;
+    bool *gameActive = &arguments->gameActive;
+    int *winner = &arguments->winner;
 
     Ball ball(100, 50, 10, 10);
     Paddle leftPaddle(0);
@@ -64,12 +76,9 @@ void *thread_producer_fn(void *args)
     int lastWallCollided = 0;
     int lastPaddleCollided = 0;
 
-    while(true) {
-        cout << "Producer updating" << endl;
+    while(*gameActive) {
         // update ball variables
         ball.move();
-
-        cout << "Producer here" << endl;
 
         ballMessage->putMessage(ball);
 
@@ -89,41 +98,39 @@ void *thread_producer_fn(void *args)
         int collidedGoal = window->checkGoalCollision();
         if (collidedGoal != 0)
         {
-            gameMessage->putMessage(collidedGoal);
-            pthread_exit(NULL);
+            *winner = (collidedGoal == 1) ? 2 : 1;
+            *gameActive = false;
+            window->gameOver(*winner);
         }
-        cout << "Producer end of loop" << endl;
-        //usleep(sleep_time);
+        usleep(sleep_time);
     }
+    pthread_exit(NULL);
 }
 
 void *thread_consumer_fn(void *args)
 {
     cout << "Consumer entered" << endl;
 
-    MainWindow *window = (MainWindow *)args;
+    //MainWindow *window = (MainWindow *)args;
 
-    Message<Ball> *ballMessage = arguments.ballMessage_p;
-    Message<int> *gameMessage = arguments.gameMessage_p;
+    thread_arguments_t *arguments = (thread_arguments_t *)args;
+
+//    Message<Ball> *ballMessage = arguments.ballMessage_p;
+//    Message<int> *gameMessage = arguments.gameMessage_p;
+
+    Message<Ball> *ballMessage = arguments->ballMessage_p;
+    MainWindow *window = arguments->w_p;
+    bool *gameActive = &arguments->gameActive;
 
     Ball ball;
-    int winner;
 
-    while(true) {
-
-        cout << "Consumer updating" << endl;
+    while(*gameActive) {
 
         if(ballMessage->getMessage(ball))
         {
             window->moveBall(ball.getLocation().first, ball.getLocation().second);
         }
-        if(gameMessage->getMessage(winner))
-        {
-            window->gameOver(winner);
-            pthread_exit(NULL);
-        }
         usleep(sleep_time);
-
-        cout << "Consumer end of loop" << endl;
     }
+    pthread_exit(NULL);
 }
