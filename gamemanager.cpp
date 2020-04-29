@@ -5,8 +5,6 @@
 
 using namespace std;
 
-int gameNumber = 1;
-
 void *thread_producer_fn(void *);
 void *thread_consumer_fn(void *);
 
@@ -29,8 +27,6 @@ int GameManager::run(MainWindow& w)
 {
 
     thread_arguments_t arguments;
-
-    cout << "here" << endl;
 
     // threads
     pthread_t thread_consumer, thread_producer;
@@ -108,11 +104,6 @@ void *thread_producer_fn(void *args)
 
 void *thread_consumer_fn(void *args)
 {
-    qsrand(time(0));
-    cout << "Game " << gameNumber << " Started!" << endl;
-    sleep(5);
-    cout << "Game " << gameNumber++ << " Ended!" << endl;
-
     thread_arguments_t *arguments = (thread_arguments_t *)args;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;

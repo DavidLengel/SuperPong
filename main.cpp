@@ -38,29 +38,25 @@ void *game_thread_fn(void *args)
 
     GameManager gm;
 
-//    while (matchInSession){
-//        winner = gm.run(*w);
-//        cout << "Winner: " << winner << endl;
-//        sleep(2);
-//        if(winner == 1)
-//            p1Score++;
-//        else
-//            p2Score++;
+    while (matchInSession){
+        winner = gm.run(*w);
+        cout << "Winner: " << winner << endl;
+        sleep(2);
+        if(winner == 1)
+            p1Score++;
+        else
+            p2Score++;
 
-//        if(p1Score >= maxScore || p2Score >= maxScore)
-//        {
-//            matchInSession = false;
-//            w->matchOver(winner);
-//            cout << "Match Ended!" << endl;
-//        }
-//        else
-//        {
-//            w->nextGame();
-//        }
-//    }
-    while(1)
-    {
-        gm.run(*w);
+        if(p1Score >= maxScore || p2Score >= maxScore)
+        {
+            matchInSession = false;
+            w->matchOver(winner);
+            cout << "Match Ended!" << endl;
+        }
+        else
+        {
+            w->nextGame();
+        }
     }
 
     pthread_exit(NULL);
