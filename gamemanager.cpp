@@ -13,6 +13,7 @@ static const int sleep_time = 5000;
 typedef struct thread_arguments
 {
     Message<Ball> *ballMessage_p;
+    Message<powerup> * powerupMessage_p;
     MainWindow *w_p;
     bool gameActive;
     int winner;
@@ -31,8 +32,10 @@ int GameManager::run(MainWindow& w)
     // threads
     pthread_t thread_consumer, thread_producer;
     Message<Ball> ballMessage;
+    Message<powerup> powerupMessage;
     Message<int> gameMessage;
     arguments.ballMessage_p = &ballMessage;
+    arguments.powerupMessage_p = &powerupMessage;
     arguments.w_p = &w;
     arguments.gameActive = true;
     arguments.winner = 0;
@@ -59,11 +62,13 @@ void *thread_producer_fn(void *args)
     thread_arguments_t *arguments = (thread_arguments_t *)args;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;
+    Message<powerup> *powerupMessage = arguments->powerupMessage_p;
     MainWindow *window = arguments->w_p;
     bool *gameActive = &arguments->gameActive;
     int *winner = &arguments->winner;
 
     Ball ball;
+    powerup powerup;
     Paddle leftPaddle(0);
     Paddle rightPaddle(1);
     int lastWallCollided = 0;
@@ -71,34 +76,57 @@ void *thread_producer_fn(void *args)
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
+    window->movePowerup(powerup.getLocation().first, powerup.getLocation().second, 0);
 
     while(*gameActive) {
         // update ball variables
         ball.move();
+        powerup.move();
 
         ballMessage->putMessage(ball);
+        powerupMessage->putMessage(powerup);
 
-        // check wall collision
-        int currentWallCollision = window->checkWallCollision();
-        if (lastWallCollided != currentWallCollision && currentWallCollision != 0)
+        // check if ball had a wall collision
+        int currentBallWallCollision = window->checkBallWallCollision();
+        if (lastWallCollided != currentBallWallCollision && currentBallWallCollision != 0)
         {
             ball.collideWall();
-            lastWallCollided = currentWallCollision;
+            lastWallCollided = currentBallWallCollision;
         }
-        // check paddle collision
-        int currentPaddleCollision = window->checkPaddleCollision();
-        if (lastPaddleCollided != currentPaddleCollision && currentPaddleCollision != 0)
+        // check if ball had a paddle collision
+        int currentBallPaddleCollision = window->checkBallPaddleCollision();
+        if (lastPaddleCollided != currentBallPaddleCollision && currentBallPaddleCollision != 0)
         {
             ball.collidePaddle();
-            lastPaddleCollided = currentPaddleCollision;
+            lastPaddleCollided = currentBallPaddleCollision;
         }
-        // check goal collision
-        int collidedGoal = window->checkGoalCollision();
-        if (collidedGoal != 0)
+        // check if ball had a goal collision
+        int ballCollidedGoal = window->checkBallGoalCollision();
+        if (ballCollidedGoal != 0)
         {
-            *winner = (collidedGoal == 1) ? 2 : 1;
+            *winner = (ballCollidedGoal == 1) ? 2 : 1;
             *gameActive = false;
             window->gameOver(*winner);
+        }
+
+        // check if powerup had a wall collision
+        int currentPowerupWallCollision = window->checkBallWallCollision();
+        if (lastWallCollided != currentPowerupWallCollision && currentPowerupWallCollision != 0)
+        {
+            powerup.collideWall();
+            lastWallCollided = currentPowerupWallCollision;
+        }
+        // check if powerup had a paddle collision
+        int currentPowerupPaddleCollision = window->checkBallPaddleCollision();
+        if (lastPaddleCollided != currentPowerupPaddleCollision && currentPowerupPaddleCollision != 0)
+        {
+            powerup.collidePaddle();
+        }
+        // check if powerup had a goal collision
+        int powerupCollidedGoal = window->checkBallGoalCollision();
+        if (powerupCollidedGoal != 0)
+        {
+            powerup.collideGoal();
         }
 
 //        int speed = window->checkSelectedGameSpeed();
@@ -134,16 +162,22 @@ void *thread_consumer_fn(void *args)
     thread_arguments_t *arguments = (thread_arguments_t *)args;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;
+    Message<powerup> * powerupMessage = arguments->powerupMessage_p;
     MainWindow *window = arguments->w_p;
     bool *gameActive = &arguments->gameActive;
 
     Ball ball;
+    powerup powerup;
 
     while(*gameActive) {
 
         if(ballMessage->getMessage(ball))
         {
             window->moveBall(ball.getLocation().first, ball.getLocation().second);
+        }
+        if(powerupMessage->getMessage(powerup))
+        {
+            window->movePowerup(powerup.getLocation().first, powerup.getLocation().second, 0);
         }
         usleep(sleep_time);
     }

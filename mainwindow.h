@@ -14,12 +14,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void movePowerup(int,int,int);
     void moveBall(int,int);
     void moveLeftPaddle(int);
     void moveRightPaddle(int);
-    int checkWallCollision();
-    int checkPaddleCollision();
-    int checkGoalCollision();
+    int checkBallWallCollision();
+    int checkBallPaddleCollision();
+    int checkBallGoalCollision();
     void gameOver(int);
     void matchOver(int);
     void nextGame();

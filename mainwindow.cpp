@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     grabKeyboard();
     setUpMenu();
+    //ui->powerupCharge->setPixmap("");
 
 //    installEventFilter(this);
 }
@@ -69,20 +70,36 @@ int MainWindow::checkSelectedGameSpeed()
 
 void MainWindow::spawnPowerup()
 {
-    QLabel *powerup = new QLabel("powerup");
-    powerup->setFrameStyle(QFrame::Plain);
-    powerup->setText("Testaroonie");
-    powerup->move(200, 200);
-    switch(rand() % 3)
+
+//  ui->powerupCharge->setVisible(true);
+//    switch(rand() % 3)
+//    {
+//    case 0:
+//        break;
+//    case 1:
+//        break;
+//    case 2:
+//        break;
+//    default:
+//        printf("ERROR: Spawn Powerup Failed\n");
+//    }
+}
+
+void MainWindow::movePowerup(int x_coord, int y_coord, int powerup)
+{
+    switch(powerup)
     {
     case 0:
+        ui->powerupCharge->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
         break;
     case 1:
+        ui->powerupExtend->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
         break;
     case 2:
+        ui->powerupShrink->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
         break;
     default:
-        printf("ERROR: Spawn Powerup Failed\n");
+        perror("Unable to find powerup");
     }
 }
 
@@ -102,7 +119,7 @@ void MainWindow::moveRightPaddle(int y_coord)
 }
 
 // Return 1 if top wall, 2 if bottom wall, 0 if false
-int MainWindow::checkWallCollision()
+int MainWindow::checkBallWallCollision()
 {
     if((ui->topWall->y() + ui->topWall->height()) >= ui->ball->y())
     {
@@ -117,7 +134,7 @@ int MainWindow::checkWallCollision()
 }
 
 // Return 1 if Paddle 1 (Left), 2 if Paddle 2 (Right), 0 if false
-int MainWindow::checkPaddleCollision()
+int MainWindow::checkBallPaddleCollision()
 {
     if((ui->paddle1->x() + ui->paddle1->width() >= ui->ball->x())
             && ((ui->ball->y() >= ui->paddle1->y()) && (ui->ball->y() <= ui->paddle1->y() + ui->paddle1->height())))
@@ -134,7 +151,7 @@ int MainWindow::checkPaddleCollision()
 }
 
 // Return 1 if Goal 1 (Left), 2 if Goal 2 (Right), 0 if false
-int MainWindow::checkGoalCollision()
+int MainWindow::checkBallGoalCollision()
 {
     if(ui->goal1->x() >= ui->ball->x())
     {
