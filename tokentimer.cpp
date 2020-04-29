@@ -1,10 +1,10 @@
 #include "tokentimer.h"
 
 TokenTimer::TokenTimer() :
-    full_token_count(10), msec_per_token(1) {}
+    full_token_count(10), usec_per_token(1000) {}
 
-TokenTimer::TokenTimer(int _full_token_count, int _msec_per_token) :
-    full_token_count(_full_token_count), msec_per_token(_msec_per_token) {}
+TokenTimer::TokenTimer(int _full_token_count, int _usec_per_token) :
+    full_token_count(_full_token_count), usec_per_token(_usec_per_token) {}
 
 TokenTimer::~TokenTimer() {}
 
@@ -49,17 +49,17 @@ bool TokenTimer::tokenTimeElapsed()
     timespec current_time;
     clock_gettime(CLOCK_MONOTONIC, &current_time);
 
-    // get time elapsed between current time and last token event time in milliseconds
-    int elapsedMS = 0;
+    // get time elapsed between current time and last token event time in microseconds
+    int elapsedUS = 0;
     if(current_time.tv_sec == last_token_event.tv_sec)
-        elapsedMS = (current_time.tv_nsec - last_token_event.tv_nsec) / nsec_per_msec;
+        elapsedUS = (current_time.tv_nsec - last_token_event.tv_nsec) / nsec_per_usec;
     else
     {
-        elapsedMS = (last_token_event.tv_nsec + (nsec_per_sec - current_time.tv_nsec)) / nsec_per_msec;
-        elapsedMS += (current_time.tv_sec - last_token_event.tv_sec) * msec_per_sec;
+        elapsedUS = (last_token_event.tv_nsec + (nsec_per_sec - current_time.tv_nsec)) / nsec_per_usec;
+        elapsedUS += (current_time.tv_sec - last_token_event.tv_sec) * usec_per_sec;
     }
 
-    return (elapsedMS >= msec_per_token);
+    return (elapsedUS >= usec_per_token);
 }
 
 //-----------------------------------------------------------
@@ -81,7 +81,7 @@ void TokenTimer::setTimerSize(int _full_token_count)
     full_token_count = _full_token_count;
 }
 
-void TokenTimer::setTokenTime(int _msec_per_token)
+void TokenTimer::setTokenTime(int _usec_per_token)
 {
-    msec_per_token = _msec_per_token;
+    usec_per_token = _usec_per_token;
 }

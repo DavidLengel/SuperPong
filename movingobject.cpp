@@ -2,14 +2,14 @@
 #include <math.h>
 
 MovingObject::MovingObject() :
-    x_coord(360), y_coord(240), x_velocity(1), y_velocity(1)
+    x_coord(360), y_coord(240), x_velocity(100), y_velocity(100)
 {
     x_timer.setTimerSize(x_velocity);
-    x_timer.setTokenTime(1);
+    x_timer.setTokenTime(10);
     x_timer.resetTimer();
 
     y_timer.setTimerSize(y_velocity);
-    y_timer.setTokenTime(1);
+    y_timer.setTokenTime(10);
     y_timer.resetTimer();
 }
 

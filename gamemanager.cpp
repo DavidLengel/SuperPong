@@ -97,7 +97,6 @@ void *thread_producer_fn(void *args)
             *gameActive = false;
             window->gameOver(*winner);
         }
-        usleep(sleep_time);
     }
     pthread_exit(NULL);
 }
