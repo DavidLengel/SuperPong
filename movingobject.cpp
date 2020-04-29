@@ -4,7 +4,7 @@
 #include <math.h>
 
 MovingObject::MovingObject() :
-    x_coord(360), y_coord(240), x_velocity(900), y_velocity(900)
+    x_coord(330), y_coord(200)
 {
     qsrand(time(0));
     int randval = qrand() % 501;
