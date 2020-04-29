@@ -23,6 +23,8 @@ public:
     void gameOver(int);
     void matchOver(int);
     void nextGame();
+    int checkSelectedMaxScore();
+    int checkSelectedGameSpeed();
 
 protected:
     void keyPressEvent(QKeyEvent*);
@@ -30,9 +32,9 @@ protected:
 private slots:
     //void populateTextEdit();
     void spawnPowerup();
-    void setUpMenu();
 
 private:
     Ui::MainWindow *ui;
+    void setUpMenu();
 };
 #endif // MAINWINDOW_H
