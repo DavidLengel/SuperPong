@@ -2076,11 +2076,17 @@ background-color: gray;</string>
       <height>20</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="text">
      <string/>
     </property>
     <property name="pixmap">
      <pixmap>Images/ExtendPowerup.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="powerupCharge">
@@ -2092,11 +2098,17 @@ background-color: gray;</string>
       <height>20</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="text">
      <string/>
     </property>
     <property name="pixmap">
      <pixmap>Images/ChargePowerup.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="powerupShrink">
@@ -2108,11 +2120,17 @@ background-color: gray;</string>
       <height>20</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="text">
      <string/>
     </property>
     <property name="pixmap">
      <pixmap>Images/ShrinkPowerup.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="gameCountLabel">
@@ -3550,6 +3568,9 @@ color: red;</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
