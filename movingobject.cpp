@@ -1,14 +1,41 @@
 #include "movingobject.h"
+#include <QtGlobal>
 #include <math.h>
 
 MovingObject::MovingObject() :
-    x_coord(360), y_coord(240), x_velocity(100), y_velocity(100)
+    x_coord(360), y_coord(240), x_velocity(900), y_velocity(900)
 {
-    x_timer.setTimerSize(x_velocity);
+    qsrand(time(0));
+    int randval = qrand() % 501;
+    x_velocity = randval + 400;
+    y_velocity = 900 - randval;
+
+    int x_vel = x_velocity;
+    int y_vel = y_velocity;
+
+    switch(qrand() % 4)
+    {
+    case 0:
+        break;
+    case 1:
+        x_velocity = -x_velocity;
+        break;
+    case 2:
+        y_velocity = -y_velocity;
+        break;
+    case 3:
+        x_velocity = -x_velocity;
+        y_velocity = -y_velocity;
+        break;
+    default:
+        perror("qrand() betrayed us.");
+    }
+
+    x_timer.setTimerSize(x_vel);
     x_timer.setTokenTime(10);
     x_timer.resetTimer();
 
-    y_timer.setTimerSize(y_velocity);
+    y_timer.setTimerSize(y_vel);
     y_timer.setTokenTime(10);
     y_timer.resetTimer();
 }
