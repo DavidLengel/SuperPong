@@ -22,25 +22,42 @@ MainWindow::~MainWindow()
 
 void MainWindow::setUpMenu()
 {
-//    QActionGroup *MaxScoreGroup = new QActionGroup(ui->menuMax_Score);
-//    MaxScoreGroup->addAction(ui->action7);
-//    MaxScoreGroup->addAction(ui->action14);
-//    MaxScoreGroup->addAction(ui->action21);
+    QActionGroup *MaxScoreGroup = new QActionGroup(ui->menuMax_Score);
+    MaxScoreGroup->addAction(ui->action7);
+    MaxScoreGroup->addAction(ui->action14);
+    MaxScoreGroup->addAction(ui->action21);
 
-//    connect(ui->action7, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action7Slot()));
-//    connect(ui->action14, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action14Slot()));
-//    connect(ui->action21, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action21Slot()));
+    QActionGroup *GameSpeedGroup = new QActionGroup(ui->menuGame_Speed);
+    GameSpeedGroup->addAction(ui->actionSlow);
+    GameSpeedGroup->addAction(ui->actionNormal);
+    GameSpeedGroup->addAction(ui->actionFast);
+    GameSpeedGroup->addAction(ui->actionInsanelyFast);
+}
 
-//    QActionGroup *GameSpeedGroup = new QActionGroup(ui->menuGame_Speed);
-//    GameSpeedGroup->addAction(ui->actionSlow);
-//    GameSpeedGroup->addAction(ui->actionNormal);
-//    GameSpeedGroup->addAction(ui->actionFast);
-//    GameSpeedGroup->addAction(ui->actionInsanelyFast);
+int MainWindow::checkSelectedMaxScore()
+{
+    if(ui->action7->isChecked())
+        return 7;
+    else if(ui->action14->isChecked())
+        return 14;
+    else if(ui->action21->isChecked())
+        return 21;
+    else
+        return -1;
+}
 
-//    connect(ui->actionSlow, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionSlowSlot()));
-//    connect(ui->actionNormal, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionNormalSlot()));
-//    connect(ui->actionFast, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionFastSlot()));
-//    connect(ui->actionInsanelyFast, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionInsanelyFastSlot()));
+int MainWindow::checkSelectedGameSpeed()
+{
+    if(ui->actionSlow->isChecked())
+        return 1;
+    else if(ui->actionNormal->isChecked())
+        return 2;
+    else if(ui->actionFast->isChecked())
+        return 3;
+    else if(ui->actionInsanelyFast->isChecked())
+        return 4;
+    else
+        return -1;
 }
 
 //void MainWindow::populateTextEdit()

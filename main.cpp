@@ -32,13 +32,14 @@ void *game_thread_fn(void *args)
 
     int matchInSession = true;
     int winner;
-    int maxScore = 7;
+    int maxScore = w->checkSelectedMaxScore();
     int p1Score = 0;
     int p2Score = 0;
 
     GameManager gm;
 
     while (matchInSession){
+        maxScore = w->checkSelectedMaxScore();
         winner = gm.run(*w);
         cout << "Winner: " << winner << endl;
         sleep(2);
