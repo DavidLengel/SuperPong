@@ -70,11 +70,13 @@ void *thread_producer_fn(void *args)
     bool *gameActive = &arguments->gameActive;
     int *winner = &arguments->winner;
 
-    Ball ball(100, 50, 10, 10);
+    Ball ball;
     Paddle leftPaddle(0);
     Paddle rightPaddle(1);
     int lastWallCollided = 0;
     int lastPaddleCollided = 0;
+
+    window->moveBall(ball.getLocation().first, ball.getLocation().second);
 
     while(*gameActive) {
         // update ball variables

@@ -51,10 +51,11 @@ void *game_thread_fn(void *args)
 
     GameManager gm;
 
-    while(1) {
-        cout << "Starting a game" << endl;
+    for(int game_count = 0; game_count < 3; ++game_count) {
+        cout << "Starting a game " << game_count+1 << endl;
         int winner = gm.run(*w);
         cout << "Winner: " << winner << endl;
+        sleep(2);
     }
 
     pthread_exit(NULL);
