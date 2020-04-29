@@ -92,6 +92,7 @@ void MovingObject::setYVelocity(int y_vel)
 void MovingObject::move()
 {
     if(x_timer.processTimer()){
+
         if(x_velocity > 0)
         {
             x_coord++;
@@ -102,6 +103,7 @@ void MovingObject::move()
         }
     }
     if(y_timer.processTimer()){
+
         if(y_velocity > 0)
         {
             y_coord++;

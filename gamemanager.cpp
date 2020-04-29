@@ -72,9 +72,18 @@ void *thread_producer_fn(void *args)
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
 
+    int increase_speed = 0;
+    int when_increase_speed = 1000000;
+
     while(*gameActive) {
         // update ball variables
         ball.move();
+
+        // increase speed gradually
+        if(increase_speed == when_increase_speed-1) {
+            ball.increaseSpeed();
+        }
+        increase_speed = (increase_speed+1)%when_increase_speed;
 
         ballMessage->putMessage(ball);
 
@@ -126,6 +135,7 @@ void *thread_producer_fn(void *args)
 //            lastSpeedSetting = speed;
 //        }
     }
+    usleep(100);
     pthread_exit(NULL);
 }
 

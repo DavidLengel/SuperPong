@@ -10,6 +10,7 @@ public:
     Ball(int,int,int,int);
     void collidePaddle() override;
     void collideGoal() override;
+    void increaseSpeed();
 };
 
 #endif // BALL_H

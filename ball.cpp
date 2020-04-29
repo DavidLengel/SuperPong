@@ -15,3 +15,25 @@ void Ball::collidePaddle() {
 void Ball::collideGoal() {
 
 }
+
+void Ball::increaseSpeed() {
+
+    if(x_velocity > 1) {
+        --x_velocity;
+        x_timer.setTimerSize(x_velocity);
+    }
+    else if(x_velocity < -1) {
+        ++x_velocity;
+        x_timer.setTimerSize(std::abs(x_velocity));
+    }
+
+    if(y_velocity > 1) {
+        --y_velocity;
+        y_timer.setTimerSize(y_velocity);
+    }
+    else if(y_velocity < -1) {
+        ++y_velocity;
+        y_timer.setTimerSize(std::abs(y_velocity));
+    }
+    //cout << "xv: " << x_velocity << " yv: " << y_velocity << endl;
+}
