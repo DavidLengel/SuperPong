@@ -68,7 +68,7 @@ int MainWindow::checkSelectedGameSpeed()
 //    ui->paddle1->move(ui->paddle1->x(), rand() % (ui->gameField->height() - ui->paddle1->height()) + ui->gameField->y());
 //}
 
-void MainWindow::spawnPowerup()
+void MainWindow::spawnPowerup(int powerup)
 {
 
 //  ui->powerupCharge->setVisible(true);
@@ -163,6 +163,21 @@ int MainWindow::checkBallGoalCollision()
     }
     else
         return 0;
+}
+
+int MainWindow::checkPowerupGoalCollision()
+{
+
+}
+
+int MainWindow::checkPowerupWallCollision()
+{
+
+}
+
+int MainWindow::checkPowerupPaddleCollision()
+{
+
 }
 
 void MainWindow::gameOver(int winner)

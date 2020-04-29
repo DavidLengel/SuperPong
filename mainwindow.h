@@ -21,18 +21,21 @@ public:
     int checkBallWallCollision();
     int checkBallPaddleCollision();
     int checkBallGoalCollision();
+    int checkPowerupWallCollision();
+    int checkPowerupPaddleCollision();
+    int checkPowerupGoalCollision();
     void gameOver(int);
     void matchOver(int);
     void nextGame();
     int checkSelectedMaxScore();
     int checkSelectedGameSpeed();
+    void spawnPowerup(int);
 
 protected:
     void keyPressEvent(QKeyEvent*);
 
 private slots:
     //void populateTextEdit();
-    void spawnPowerup();
 
 private:
     Ui::MainWindow *ui;

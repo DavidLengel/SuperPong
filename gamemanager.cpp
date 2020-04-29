@@ -13,7 +13,7 @@ static const int sleep_time = 5000;
 typedef struct thread_arguments
 {
     Message<Ball> *ballMessage_p;
-    Message<powerup> * powerupMessage_p;
+    Message<Powerup> * powerupMessage_p;
     MainWindow *w_p;
     bool gameActive;
     int winner;
@@ -32,7 +32,7 @@ int GameManager::run(MainWindow& w)
     // threads
     pthread_t thread_consumer, thread_producer;
     Message<Ball> ballMessage;
-    Message<powerup> powerupMessage;
+    Message<Powerup> powerupMessage;
     Message<int> gameMessage;
     arguments.ballMessage_p = &ballMessage;
     arguments.powerupMessage_p = &powerupMessage;
@@ -62,13 +62,13 @@ void *thread_producer_fn(void *args)
     thread_arguments_t *arguments = (thread_arguments_t *)args;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;
-    Message<powerup> *powerupMessage = arguments->powerupMessage_p;
+    Message<Powerup> *powerupMessage = arguments->powerupMessage_p;
     MainWindow *window = arguments->w_p;
     bool *gameActive = &arguments->gameActive;
     int *winner = &arguments->winner;
 
     Ball ball;
-    powerup powerup;
+    Powerup powerup;
     Paddle leftPaddle(0);
     Paddle rightPaddle(1);
     int lastWallCollided = 0;
@@ -162,12 +162,12 @@ void *thread_consumer_fn(void *args)
     thread_arguments_t *arguments = (thread_arguments_t *)args;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;
-    Message<powerup> * powerupMessage = arguments->powerupMessage_p;
+    Message<Powerup> * powerupMessage = arguments->powerupMessage_p;
     MainWindow *window = arguments->w_p;
     bool *gameActive = &arguments->gameActive;
 
     Ball ball;
-    powerup powerup;
+    Powerup powerup;
 
     while(*gameActive) {
 
