@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     grabKeyboard();
+    setUpMenu();
+
 //    installEventFilter(this);
 }
 
@@ -18,12 +20,35 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::populateTextEdit()
+void MainWindow::setUpMenu()
 {
-    ui->historyList->addItem("Cool Dude 66");
-    //paddle moves between top wall and bottom wall
-    ui->paddle1->move(ui->paddle1->x(), rand() % (ui->gameField->height() - ui->paddle1->height()) + ui->gameField->y());
+    QActionGroup *MaxScoreGroup = new QActionGroup(ui->menuMax_Score);
+    MaxScoreGroup->addAction(ui->action7);
+    MaxScoreGroup->addAction(ui->action14);
+    MaxScoreGroup->addAction(ui->action21);
+
+    connect(ui->action7, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action7Slot()));
+    connect(ui->action14, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action14Slot()));
+    connect(ui->action21, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action21Slot()));
+
+    QActionGroup *GameSpeedGroup = new QActionGroup(ui->menuGame_Speed);
+    GameSpeedGroup->addAction(ui->actionSlow);
+    GameSpeedGroup->addAction(ui->actionNormal);
+    GameSpeedGroup->addAction(ui->actionFast);
+    GameSpeedGroup->addAction(ui->actionInsanelyFast);
+
+    connect(ui->actionSlow, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionSlowSlot()));
+    connect(ui->actionNormal, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionNormalSlot()));
+    connect(ui->actionFast, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionFastSlot()));
+    connect(ui->actionInsanelyFast, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionInsanelyFastSlot()));
 }
+
+//void MainWindow::populateTextEdit()
+//{
+//    ui->historyList->addItem("Cool Dude 66");
+//    //paddle moves between top wall and bottom wall
+//    ui->paddle1->move(ui->paddle1->x(), rand() % (ui->gameField->height() - ui->paddle1->height()) + ui->gameField->y());
+//}
 
 void MainWindow::spawnPowerup()
 {
@@ -109,9 +134,19 @@ int MainWindow::checkGoalCollision()
 void MainWindow::gameOver(int winner)
 {
     if (winner == 1)
-        ui->p2Score->setText(QString::number((ui->p2Score->text().toInt()) + 1));
-    else
         ui->p1Score->setText(QString::number((ui->p1Score->text().toInt()) + 1));
+    else
+        ui->p2Score->setText(QString::number((ui->p2Score->text().toInt()) + 1));
+}
+
+void MainWindow::matchOver(int winner)
+{
+    ui->winnerLabel->setText("Player " + QString::number(winner) + " won!");
+}
+
+void MainWindow::nextGame()
+{
+    ui->gameCount->setText(QString::number(ui->gameCount->text().toInt() + 1));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -130,5 +165,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Down:
             ui->paddle2->move(ui->paddle2->x(), ui->paddle2->y()+std::min(30,(ui->bottomWall->y()-ui->paddle2->y()-ui->paddle2->height())));
             break;
+//        case Qt::Key_Space:
+
     }
 }
