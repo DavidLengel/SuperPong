@@ -13,8 +13,6 @@ typedef struct thread_arguments
     int winner;
 } thread_arguments_t;
 
-//static thread_arguments_t arguments;
-
 GameManager::GameManager()
 {
 
@@ -22,8 +20,6 @@ GameManager::GameManager()
 
 int GameManager::run(MainWindow& w)
 {
-//    MainWindow w;
-//    w.show();
 
     thread_arguments_t arguments;
 
@@ -57,13 +53,7 @@ int GameManager::run(MainWindow& w)
 
 void *thread_producer_fn(void *args)
 {
-    cout << "Producer entered" << endl;
-
-    //MainWindow *window = (MainWindow *)args;
     thread_arguments_t *arguments = (thread_arguments_t *)args;
-
-//    Message<Ball> *ballMessage = arguments.ballMessage_p;
-//    Message<int> *gameMessage = arguments.gameMessage_p;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;
     MainWindow *window = arguments->w_p;
@@ -111,14 +101,8 @@ void *thread_producer_fn(void *args)
 
 void *thread_consumer_fn(void *args)
 {
-    cout << "Consumer entered" << endl;
-
-    //MainWindow *window = (MainWindow *)args;
 
     thread_arguments_t *arguments = (thread_arguments_t *)args;
-
-//    Message<Ball> *ballMessage = arguments.ballMessage_p;
-//    Message<int> *gameMessage = arguments.gameMessage_p;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;
     MainWindow *window = arguments->w_p;
