@@ -2,7 +2,7 @@
 #include <math.h>
 
 MovingObject::MovingObject() :
-    x_coord(360), y_coord(240), /*angle(35), velocity(5)*/x_velocity(20), y_velocity(20)
+    x_coord(360), y_coord(240), x_velocity(1), y_velocity(1)
 {
     x_timer.setTimerSize(x_velocity);
     x_timer.setTokenTime(1);
@@ -13,8 +13,8 @@ MovingObject::MovingObject() :
     y_timer.resetTimer();
 }
 
-MovingObject::MovingObject(int _x_coord, int _y_coord, /*int _angle, int _velocity*/int _x_velocity, int _y_velocity) :
-    x_coord(_x_coord), y_coord(_y_coord), /*angle(_angle), velocity(_velocity)*/x_velocity(_x_velocity), y_velocity(_y_velocity)
+MovingObject::MovingObject(int _x_coord, int _y_coord, int _x_velocity, int _y_velocity) :
+    x_coord(_x_coord), y_coord(_y_coord), x_velocity(_x_velocity), y_velocity(_y_velocity)
 {
     x_timer.setTimerSize(x_velocity);
     x_timer.setTokenTime(1);

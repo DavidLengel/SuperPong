@@ -22,25 +22,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::setUpMenu()
 {
-    QActionGroup *MaxScoreGroup = new QActionGroup(ui->menuMax_Score);
-    MaxScoreGroup->addAction(ui->action7);
-    MaxScoreGroup->addAction(ui->action14);
-    MaxScoreGroup->addAction(ui->action21);
+//    QActionGroup *MaxScoreGroup = new QActionGroup(ui->menuMax_Score);
+//    MaxScoreGroup->addAction(ui->action7);
+//    MaxScoreGroup->addAction(ui->action14);
+//    MaxScoreGroup->addAction(ui->action21);
 
-    connect(ui->action7, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action7Slot()));
-    connect(ui->action14, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action14Slot()));
-    connect(ui->action21, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action21Slot()));
+//    connect(ui->action7, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action7Slot()));
+//    connect(ui->action14, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action14Slot()));
+//    connect(ui->action21, SIGNAL(triggered()), ui->menuMax_Score, SLOT(action21Slot()));
 
-    QActionGroup *GameSpeedGroup = new QActionGroup(ui->menuGame_Speed);
-    GameSpeedGroup->addAction(ui->actionSlow);
-    GameSpeedGroup->addAction(ui->actionNormal);
-    GameSpeedGroup->addAction(ui->actionFast);
-    GameSpeedGroup->addAction(ui->actionInsanelyFast);
+//    QActionGroup *GameSpeedGroup = new QActionGroup(ui->menuGame_Speed);
+//    GameSpeedGroup->addAction(ui->actionSlow);
+//    GameSpeedGroup->addAction(ui->actionNormal);
+//    GameSpeedGroup->addAction(ui->actionFast);
+//    GameSpeedGroup->addAction(ui->actionInsanelyFast);
 
-    connect(ui->actionSlow, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionSlowSlot()));
-    connect(ui->actionNormal, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionNormalSlot()));
-    connect(ui->actionFast, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionFastSlot()));
-    connect(ui->actionInsanelyFast, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionInsanelyFastSlot()));
+//    connect(ui->actionSlow, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionSlowSlot()));
+//    connect(ui->actionNormal, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionNormalSlot()));
+//    connect(ui->actionFast, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionFastSlot()));
+//    connect(ui->actionInsanelyFast, SIGNAL(triggered()), ui->menuGame_Speed, SLOT(actionInsanelyFastSlot()));
 }
 
 //void MainWindow::populateTextEdit()
