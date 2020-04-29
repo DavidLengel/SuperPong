@@ -1,4 +1,5 @@
 #include "movingobject.h"
+#include "mainwindow.h"
 #include <QtGlobal>
 #include <math.h>
 
@@ -10,8 +11,8 @@ MovingObject::MovingObject() :
     x_velocity = randval + 400;
     y_velocity = 900 - randval;
 
-    int x_vel = x_velocity;
-    int y_vel = y_velocity;
+    int x_timer_size = x_velocity;
+    int y_timer_size = y_velocity;
 
     switch(qrand() % 4)
     {
@@ -31,11 +32,11 @@ MovingObject::MovingObject() :
         perror("qrand() betrayed us.");
     }
 
-    x_timer.setTimerSize(x_vel);
+    x_timer.setTimerSize(x_timer_size);
     x_timer.setTokenTime(10);
     x_timer.resetTimer();
 
-    y_timer.setTimerSize(y_vel);
+    y_timer.setTimerSize(y_timer_size);
     y_timer.setTokenTime(10);
     y_timer.resetTimer();
 }

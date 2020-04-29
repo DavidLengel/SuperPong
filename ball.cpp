@@ -1,4 +1,5 @@
 #include "ball.h"
+#include "mainwindow.h"
 
 Ball::Ball():MovingObject()
 {}

@@ -2,7 +2,7 @@
 
 #include <QApplication>
 
-void *game_thread_fn(void *);
+void *match_thread_fn(void *);
 
 int main(int argc, char *argv[])
 {
@@ -11,9 +11,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    pthread_t game_thread;
+    pthread_t match_thread;
 
-    if(pthread_create(&game_thread, NULL, game_thread_fn, &w) != 0)
+    if(pthread_create(&match_thread, NULL, match_thread_fn, &w) != 0)
     {
         perror("Play thread creation failed.");
         exit(1);
@@ -21,12 +21,12 @@ int main(int argc, char *argv[])
 
     a.exec();
 
-    pthread_join(game_thread, NULL);
+    pthread_join(match_thread, NULL);
 
     return 0;
 }
 
-void *game_thread_fn(void *args)
+void *match_thread_fn(void *args)
 {
     MainWindow *w = (MainWindow *)args;
 

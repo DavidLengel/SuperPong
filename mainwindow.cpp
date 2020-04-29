@@ -49,13 +49,13 @@ int MainWindow::checkSelectedMaxScore()
 int MainWindow::checkSelectedGameSpeed()
 {
     if(ui->actionSlow->isChecked())
-        return 1;
+        return 100;
     else if(ui->actionNormal->isChecked())
-        return 2;
+        return 0;
     else if(ui->actionFast->isChecked())
-        return 3;
+        return -100;
     else if(ui->actionInsanelyFast->isChecked())
-        return 4;
+        return -200;
     else
         return -1;
 }

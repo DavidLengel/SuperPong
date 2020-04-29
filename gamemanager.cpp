@@ -68,6 +68,7 @@ void *thread_producer_fn(void *args)
     Paddle rightPaddle(1);
     int lastWallCollided = 0;
     int lastPaddleCollided = 0;
+    //int lastSpeedSetting = window->checkSelectedGameSpeed();
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
 
@@ -84,12 +85,14 @@ void *thread_producer_fn(void *args)
             ball.collideWall();
             lastWallCollided = currentWallCollision;
         }
+        // check paddle collision
         int currentPaddleCollision = window->checkPaddleCollision();
         if (lastPaddleCollided != currentPaddleCollision && currentPaddleCollision != 0)
         {
             ball.collidePaddle();
             lastPaddleCollided = currentPaddleCollision;
         }
+        // check goal collision
         int collidedGoal = window->checkGoalCollision();
         if (collidedGoal != 0)
         {
@@ -97,6 +100,31 @@ void *thread_producer_fn(void *args)
             *gameActive = false;
             window->gameOver(*winner);
         }
+
+//        int speed = window->checkSelectedGameSpeed();
+
+//        if (speed != lastSpeedSetting)
+//        {
+//            if (ball.getXVelocity() >= 0)
+//            {
+//                ball.setXVelocity(ball.getXVelocity() + speed);
+//            }
+//            else
+//            {
+//                ball.setXVelocity(ball.getXVelocity() - speed);
+//            }
+
+//            if (ball.getYVelocity() >= 0)
+//            {
+//                ball.setYVelocity(ball.getYVelocity() + speed);
+//            }
+//            else
+//            {
+//                ball.setYVelocity(ball.getYVelocity() - speed);
+//            }
+
+//            lastSpeedSetting = speed;
+//        }
     }
     pthread_exit(NULL);
 }
