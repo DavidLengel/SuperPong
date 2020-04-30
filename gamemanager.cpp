@@ -101,18 +101,21 @@ void *thread_producer_fn(void *args)
                     break;
                 case 1:
                     cout << "Powerup state 1" << endl;
+                    window->spawnPowerup(1);
                     break;
                 case 2:
                     cout << "Powerup state 2" << endl;
                     break;
                 case 3:
                     cout << "Powerup state 3" << endl;
+                    window->spawnPowerup(2);
                     break;
                 case 4:
                     cout << "Powerup state 4" << endl;
                     break;
                 case 5:
                     cout << "Powerup state 5" << endl;
+                    window->spawnPowerup(3);
             }
         }
 
