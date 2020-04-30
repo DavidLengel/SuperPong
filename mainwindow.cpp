@@ -95,6 +95,7 @@ void MainWindow::despawnPowerup()
 
 void MainWindow::activatePowerup(int powerup, int paddle)
 {
+    despawnPowerup();
     switch(powerup)
     {
     case 1:
