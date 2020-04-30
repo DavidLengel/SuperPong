@@ -2067,51 +2067,7 @@ background-color: gray;</string>
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="powerupExtend">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>130</y>
-      <width>20</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>Images/ExtendPowerup.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="powerupCharge">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>160</y>
-      <width>20</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>Images/ChargePowerup.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="powerupShrink">
+   <widget class="QLabel" name="powerup">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -2125,9 +2081,6 @@ background-color: gray;</string>
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>Images/ShrinkPowerup.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -3587,9 +3540,7 @@ color: red;</string>
    <zorder>paddle1</zorder>
    <zorder>ball</zorder>
    <zorder>paddle2</zorder>
-   <zorder>powerupExtend</zorder>
-   <zorder>powerupCharge</zorder>
-   <zorder>powerupShrink</zorder>
+   <zorder>powerup</zorder>
    <zorder>gameCountLabel</zorder>
    <zorder>gameCount</zorder>
    <zorder>goal1</zorder>

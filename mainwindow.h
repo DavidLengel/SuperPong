@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void movePowerup(int,int,int);
+    void movePowerup(int,int);
     void moveBall(int,int);
     void moveLeftPaddle(int);
     void moveRightPaddle(int);
@@ -30,6 +30,7 @@ public:
     int checkSelectedMaxScore();
     int checkSelectedGameSpeed();
     void spawnPowerup(int);
+    void despawnPowerup();
 
 protected:
     void keyPressEvent(QKeyEvent*);

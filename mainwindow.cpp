@@ -11,9 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     grabKeyboard();
     setUpMenu();
-    //ui->powerupCharge->setPixmap("");
-
-//    installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -70,37 +67,34 @@ int MainWindow::checkSelectedGameSpeed()
 
 void MainWindow::spawnPowerup(int powerup)
 {
+    QPixmap pixmapTarget;
 
-//  ui->powerupCharge->setVisible(true);
-//    switch(rand() % 3)
-//    {
-//    case 0:
-//        break;
-//    case 1:
-//        break;
-//    case 2:
-//        break;
-//    default:
-//        printf("ERROR: Spawn Powerup Failed\n");
-//    }
-}
-
-void MainWindow::movePowerup(int x_coord, int y_coord, int powerup)
-{
     switch(powerup)
     {
-    case 0:
-        ui->powerupCharge->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
-        break;
     case 1:
-        ui->powerupExtend->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
+        pixmapTarget = QPixmap("/home/images/ChargePowerup.png");
         break;
     case 2:
-        ui->powerupShrink->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
+        pixmapTarget = QPixmap("/home/images/ExtendPowerup.png");
+        break;
+    case 3:
+        pixmapTarget = QPixmap("/home/images/ShrinkPowerup.png");
         break;
     default:
-        perror("Unable to find powerup");
+        perror("Powerup number invalid!");
     }
+    ui->powerup->setPixmap(pixmapTarget);
+    ui->powerup->setVisible(true);
+}
+
+void MainWindow::despawnPowerup()
+{
+    ui->powerup->setVisible(false);
+}
+
+void MainWindow::movePowerup(int x_coord, int y_coord)
+{
+    ui->powerup->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
 }
 
 void MainWindow::moveBall(int x_coord, int y_coord)
@@ -172,7 +166,16 @@ int MainWindow::checkPowerupGoalCollision()
 
 int MainWindow::checkPowerupWallCollision()
 {
-
+    if((ui->topWall->y() + ui->topWall->height()) >= ui->ball->y())
+    {
+        return 1;
+    }
+    else if(ui->bottomWall->y() <= ui->ball->y() + ui->ball->height())
+    {
+        return 2;
+    }
+    else
+        return 0;
 }
 
 int MainWindow::checkPowerupPaddleCollision()
