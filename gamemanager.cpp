@@ -24,7 +24,7 @@ typedef struct thread_arguments
 GameManager::GameManager()
 {
     // power-up spawn timer goes off after 10 seconds
-    pup_spawn_timer.setTimerSize(1);
+    pup_spawn_timer.setTimerSize(10);
     pup_spawn_timer.setTokenTime(1000000);
     pup_spawn_timer.resetTimer();   // start this timer immediately, runs for entirety of game
 
@@ -81,8 +81,10 @@ void *thread_producer_fn(void *args)
 
     Ball ball;
     Powerup powerup;
-    int lastWallCollided = 0;
+    int lastWallCollided_ball = 0;
+    int lastWallCollided_powerup = 0;
     int lastPaddleCollided = 0;
+    int lastGoalCollided = 0;
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
@@ -135,6 +137,27 @@ void *thread_producer_fn(void *args)
         {
             powerup.move();
             powerupMessage->putMessage(powerup);
+
+            // check if powerup had a wall collision
+            int currentPowerupWallCollision = window->checkPowerupWallCollision();
+            if (lastWallCollided_powerup != currentPowerupWallCollision && currentPowerupWallCollision != 0)
+            {
+                powerup.collideWall();
+                lastWallCollided_powerup = currentPowerupWallCollision;
+            }
+            // check if powerup had a goal collision
+            int currentPowerupGoalCollision = window->checkPowerupGoalCollision();
+            if (lastGoalCollided != currentPowerupWallCollision && currentPowerupWallCollision != 0)
+            {
+                powerup.collideGoal();
+                lastGoalCollided = currentPowerupGoalCollision;
+            }
+            // check if ball had a paddle collision
+            int powerupCollidedGoal = window->checkPowerupPaddleCollision();
+            if (powerupCollidedGoal != 0)
+            {
+
+            }
         }
 
         /***************** POWERUP ********************/
@@ -156,10 +179,10 @@ void *thread_producer_fn(void *args)
 
         // check if ball had a wall collision
         int currentBallWallCollision = window->checkBallWallCollision();
-        if (lastWallCollided != currentBallWallCollision && currentBallWallCollision != 0)
+        if (lastWallCollided_ball != currentBallWallCollision && currentBallWallCollision != 0)
         {
             ball.collideWall();
-            lastWallCollided = currentBallWallCollision;
+            lastWallCollided_ball = currentBallWallCollision;
         }
         // check if ball had a paddle collision
         int currentBallPaddleCollision = window->checkBallPaddleCollision();
