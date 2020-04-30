@@ -23,7 +23,7 @@ typedef struct thread_arguments
 GameManager::GameManager()
 {
     // power-up spawn timer goes off after 10 seconds
-    pup_spawn_timer.setTimerSize(10);
+    pup_spawn_timer.setTimerSize(2);
     pup_spawn_timer.setTokenTime(1000000);
     pup_spawn_timer.resetTimer();   // start this timer immediately, runs for entirety of game
 
@@ -98,6 +98,7 @@ void *thread_producer_fn(void *args)
             {
                 case 0:
                     cout << "Powerup state 0" << endl;
+                    window->despawnPowerup();
                     break;
                 case 1:
                     cout << "Powerup state 1" << endl;
@@ -105,6 +106,7 @@ void *thread_producer_fn(void *args)
                     break;
                 case 2:
                     cout << "Powerup state 2" << endl;
+                    window->despawnPowerup();
                     break;
                 case 3:
                     cout << "Powerup state 3" << endl;
@@ -112,6 +114,7 @@ void *thread_producer_fn(void *args)
                     break;
                 case 4:
                     cout << "Powerup state 4" << endl;
+                    window->despawnPowerup();
                     break;
                 case 5:
                     cout << "Powerup state 5" << endl;
