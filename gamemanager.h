@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "message.h"
 #include "ball.h"
+#include "powerup.h"
 #include <unistd.h>
 #include <pthread.h>
 

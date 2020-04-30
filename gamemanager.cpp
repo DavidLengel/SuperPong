@@ -13,6 +13,7 @@ static const int sleep_time = 5000;
 typedef struct thread_arguments
 {
     Message<Ball> *ballMessage_p;
+    Message<Powerup> *powerupMessage_p;
     MainWindow *w_p;
     bool gameActive;
     int winner;
@@ -23,7 +24,7 @@ typedef struct thread_arguments
 GameManager::GameManager()
 {
     // power-up spawn timer goes off after 10 seconds
-    pup_spawn_timer.setTimerSize(2);
+    pup_spawn_timer.setTimerSize(1);
     pup_spawn_timer.setTokenTime(1000000);
     pup_spawn_timer.resetTimer();   // start this timer immediately, runs for entirety of game
 
@@ -39,8 +40,10 @@ int GameManager::run(MainWindow& w)
     // threads
     pthread_t thread_consumer, thread_producer;
     Message<Ball> ballMessage;
-    Message<int> gameMessage;
+    Message<Powerup> powerupMessage;
+
     arguments.ballMessage_p = &ballMessage;
+    arguments.powerupMessage_p = &powerupMessage;
     arguments.w_p = &w;
     arguments.gameActive = true;
     arguments.winner = 0;
@@ -69,6 +72,7 @@ void *thread_producer_fn(void *args)
     thread_arguments_t *arguments = (thread_arguments_t *)args;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;
+    Message<Powerup> *powerupMessage = arguments->powerupMessage_p;
     MainWindow *window = arguments->w_p;
     bool *gameActive = &arguments->gameActive;
     int *winner = &arguments->winner;
@@ -76,6 +80,7 @@ void *thread_producer_fn(void *args)
     int *powerup_state = &arguments->powerup_state;
 
     Ball ball;
+    Powerup powerup;
     int lastWallCollided = 0;
     int lastPaddleCollided = 0;
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
@@ -87,7 +92,10 @@ void *thread_producer_fn(void *args)
 
     while(*gameActive) {
 
-        // powerups
+        /**********************************************/
+        /***************** POWERUP ********************/
+
+        // check if a powerup needs spawned or despawned
         if(game_manager->pup_spawn_timer.processTimer()) {
             cout << "10 seconds passed." << endl;
 
@@ -122,6 +130,19 @@ void *thread_producer_fn(void *args)
             }
         }
 
+        // if it is in a state where a powerup is visible
+        if(*powerup_state % 2 != 0)
+        {
+            powerup.move();
+            powerupMessage->putMessage(powerup);
+        }
+
+        /***************** POWERUP ********************/
+        /**********************************************/
+
+        /**********************************************/
+        /****************** BALL **********************/
+
         // update ball variables
         ball.move();
 
@@ -155,6 +176,9 @@ void *thread_producer_fn(void *args)
             *gameActive = false;
             window->gameOver(*winner);
         }
+
+        /****************** BALL **********************/
+        /**********************************************/
 
 //        // check if powerup had a wall collision
 //        int currentPowerupWallCollision = window->checkBallWallCollision();
@@ -210,17 +234,23 @@ void *thread_consumer_fn(void *args)
     thread_arguments_t *arguments = (thread_arguments_t *)args;
 
     Message<Ball> *ballMessage = arguments->ballMessage_p;
+    Message<Powerup> *powerupMessage = arguments->powerupMessage_p;
     MainWindow *window = arguments->w_p;
     bool *gameActive = &arguments->gameActive;
     //int *powerup_state = &arguments->powerup_state;
 
     Ball ball;
+    Powerup powerup;
 
     while(*gameActive) {
 
         if(ballMessage->getMessage(ball))
         {
             window->moveBall(ball.getLocation().first, ball.getLocation().second);
+        }
+        if(powerupMessage->getMessage(powerup))
+        {
+            window->movePowerup(powerup.getLocation().first, powerup.getLocation().second);
         }
         usleep(sleep_time);
     }
