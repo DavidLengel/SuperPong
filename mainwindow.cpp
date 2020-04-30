@@ -92,6 +92,26 @@ void MainWindow::despawnPowerup()
     ui->powerup->setVisible(false);
 }
 
+void MainWindow::activatePowerup(int powerup, int paddle)
+{
+//    switch(powerup)
+//    {
+//    case 1:
+//        //ui->
+//    case 2:
+//        if (paddle == 1)
+//        {
+//            ui->paddle1->height() = ;
+//        }
+//        else
+//        {
+//            ui->paddle2->height;
+//        }
+//    case 3:
+//    default:
+//    }
+}
+
 void MainWindow::movePowerup(int x_coord, int y_coord)
 {
     ui->powerup->move(ui->gameField->x()+x_coord, ui->gameField->y()+y_coord);
@@ -161,16 +181,25 @@ int MainWindow::checkBallGoalCollision()
 
 int MainWindow::checkPowerupGoalCollision()
 {
-
+    if(ui->goal1->x() >= ui->powerup->x())
+    {
+        return 1;
+    }
+    else if (ui->goal2->x() <= ui->powerup->x() + ui->powerup->width())
+    {
+        return 2;
+    }
+    else
+        return 0;
 }
 
 int MainWindow::checkPowerupWallCollision()
 {
-    if((ui->topWall->y() + ui->topWall->height()) >= ui->ball->y())
+    if((ui->topWall->y() + ui->topWall->height()) >= ui->powerup->y())
     {
         return 1;
     }
-    else if(ui->bottomWall->y() <= ui->ball->y() + ui->ball->height())
+    else if(ui->bottomWall->y() <= ui->powerup->y() + ui->powerup->height())
     {
         return 2;
     }
@@ -180,7 +209,18 @@ int MainWindow::checkPowerupWallCollision()
 
 int MainWindow::checkPowerupPaddleCollision()
 {
-
+    if((ui->paddle1->x() + ui->paddle1->width() >= ui->powerup->x())
+            && ((ui->powerup->y() >= ui->paddle1->y()) && (ui->powerup->y() <= ui->paddle1->y() + ui->paddle1->height())))
+    {
+        return 1;
+    }
+    else if((ui->paddle2->x() <= ui->powerup->x() + ui->powerup->width())
+            && ((ui->powerup->y() >= ui->paddle2->y()) && (ui->powerup->y() <= ui->paddle2->y() + ui->paddle2->height())))
+    {
+        return 2;
+    }
+    else
+        return 0;
 }
 
 void MainWindow::gameOver(int winner)
