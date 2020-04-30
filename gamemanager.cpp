@@ -20,12 +20,18 @@ typedef struct thread_arguments
 
 GameManager::GameManager()
 {
+    // power-up spawn timer goes off after 10 seconds
+    pup_spawn_timer.setTimerSize(10);
+    pup_spawn_timer.setTokenTime(1000000);
+    pup_spawn_timer.resetTimer();   // start this timer immediately, runs for entirety of game
 
+    // power-up active timer goes off after 5 seconds
+    pup_active_timer.setTimerSize(5);
+    pup_active_timer.setTokenTime(1000000);
 }
 
 int GameManager::run(MainWindow& w)
 {
-
     thread_arguments_t arguments;
 
     // threads
@@ -64,8 +70,6 @@ void *thread_producer_fn(void *args)
     int *winner = &arguments->winner;
 
     Ball ball;
-    Paddle leftPaddle(0);
-    Paddle rightPaddle(1);
     int lastWallCollided = 0;
     int lastPaddleCollided = 0;
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
