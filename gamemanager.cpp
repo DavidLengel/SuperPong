@@ -90,7 +90,10 @@ void *thread_producer_fn(void *args)
         // powerups
         if(game_manager->pup_spawn_timer.processTimer()) {
             cout << "10 seconds passed." << endl;
+
             int state = *powerup_state;
+            *powerup_state = (state+1)%6;
+
             switch(state)
             {
                 case 0:
@@ -110,11 +113,7 @@ void *thread_producer_fn(void *args)
                     break;
                 case 5:
                     cout << "Powerup state 5" << endl;
-                    break;
-                case 6:
-                    cout << "Powerup state 6" << endl;
             }
-            *powerup_state = (state+1)%7;
         }
 
         // update ball variables
