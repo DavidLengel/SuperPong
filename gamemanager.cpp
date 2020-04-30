@@ -147,7 +147,7 @@ void *thread_producer_fn(void *args)
             }
             // check if powerup had a goal collision
             int currentPowerupGoalCollision = window->checkPowerupGoalCollision();
-            if (lastGoalCollided != currentPowerupWallCollision && currentPowerupWallCollision != 0)
+            if (lastGoalCollided != currentPowerupGoalCollision && currentPowerupGoalCollision != 0)
             {
                 powerup.collideGoal();
                 lastGoalCollided = currentPowerupGoalCollision;

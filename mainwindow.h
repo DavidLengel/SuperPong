@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#define SIZE_ADJUSTMENT 50
+#define SIZE_ADJUSTMENT 5
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
