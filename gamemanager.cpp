@@ -48,7 +48,7 @@ int GameManager::run(MainWindow& w)
     arguments.gameActive = true;
     arguments.winner = 0;
     arguments.game_manager = this;
-    arguments.powerup_state = 1;
+    arguments.powerup_state = 0;
 
     if(pthread_create(&thread_producer, NULL, thread_producer_fn, &arguments) != 0)
     {
@@ -101,8 +101,8 @@ void *thread_producer_fn(void *args)
         if(game_manager->pup_spawn_timer.processTimer()) {
             cout << "10 seconds passed." << endl;
 
+            *powerup_state = (*powerup_state+1)%6;
             int state = *powerup_state;
-            *powerup_state = (state+1)%6;
 
             switch(state)
             {
@@ -133,7 +133,7 @@ void *thread_producer_fn(void *args)
         }
 
         // if it is in a state where a powerup is visible
-        if(*powerup_state % 2 != 0)
+        if(*powerup_state == 1 || *powerup_state == 3 || *powerup_state == 5)
         {
             powerup.move();
             powerupMessage->putMessage(powerup);
@@ -152,11 +152,12 @@ void *thread_producer_fn(void *args)
                 powerup.collideGoal();
                 lastGoalCollided = currentPowerupGoalCollision;
             }
-            // check if ball had a paddle collision
-            int powerupCollidedGoal = window->checkPowerupPaddleCollision();
-            if (powerupCollidedGoal != 0)
+            // check if powerup had a paddle collision
+            int powerupCollidedPaddle = window->checkPowerupPaddleCollision();
+            if (powerupCollidedPaddle != 0)
             {
-
+                int new_powerup = *powerup_state == 1 ? 1 : *powerup_state == 3 ? 2 : 3;
+                window->activatePowerup(new_powerup, powerupCollidedPaddle);
             }
         }
 

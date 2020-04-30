@@ -25,7 +25,7 @@ class MovingObject
         TokenTimer y_timer;
 
     public:
-        MovingObject();
+        MovingObject(bool);
         MovingObject(int,int,int,int);
         void collideWall();
         virtual void collidePaddle() = 0;

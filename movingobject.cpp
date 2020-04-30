@@ -3,7 +3,7 @@
 #include <QtGlobal>
 #include <math.h>
 
-MovingObject::MovingObject() :
+MovingObject::MovingObject(bool isBall) :
     x_coord(330), y_coord(200)
 {
     qsrand(time(0));
@@ -30,6 +30,12 @@ MovingObject::MovingObject() :
         break;
     default:
         perror("qrand() betrayed us.");
+    }
+
+    if(!isBall)
+    {
+        x_timer_size += 400;
+        y_timer_size += 400;
     }
 
     x_timer.setTimerSize(x_timer_size);

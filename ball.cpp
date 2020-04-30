@@ -1,7 +1,7 @@
 #include "ball.h"
 #include "mainwindow.h"
 
-Ball::Ball():MovingObject()
+Ball::Ball():MovingObject(true)
 {}
 
 Ball::Ball(int _x_coord, int _y_coord, int _x_velocity, int _y_velocity) :
