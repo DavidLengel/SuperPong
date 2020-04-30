@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     grabKeyboard();
     setUpMenu();
+    //activatePowerup(100);
 }
 
 MainWindow::~MainWindow()
@@ -94,22 +95,66 @@ void MainWindow::despawnPowerup()
 
 void MainWindow::activatePowerup(int powerup, int paddle)
 {
-//    switch(powerup)
-//    {
-//    case 1:
-//        //ui->
-//    case 2:
-//        if (paddle == 1)
-//        {
-//            ui->paddle1->height() = ;
-//        }
-//        else
-//        {
-//            ui->paddle2->height;
-//        }
-//    case 3:
-//    default:
-//    }
+    switch(powerup)
+    {
+    case 1:
+        //ui->
+        break;
+    case 2:
+        if (paddle == 1)
+        {
+            ui->paddle1->setFixedHeight(ui->paddle1->height() + SIZE_ADJUSTMENT);
+        }
+        else
+        {
+            ui->paddle2->setFixedHeight(ui->paddle2->height() + SIZE_ADJUSTMENT);
+        }
+        break;
+    case 3:
+        if (paddle == 1)
+        {
+            ui->paddle1->setFixedHeight(ui->paddle1->height() - SIZE_ADJUSTMENT);
+        }
+        else
+        {
+            ui->paddle2->setFixedHeight(ui->paddle2->height() - SIZE_ADJUSTMENT);
+        }
+        break;
+    default:
+        perror("Invalid powerup id passed to activatePowerup()!");
+    }
+}
+
+void MainWindow::deactivatePowerup(int powerup, int paddle)
+{
+    switch(powerup)
+    {
+    case 1:
+        //ui->
+        break;
+    case 2:
+        if (paddle == 1)
+        {
+            ui->paddle1->setFixedHeight(ui->paddle1->height() - SIZE_ADJUSTMENT);
+        }
+        else
+        {
+            ui->paddle2->setFixedHeight(ui->paddle2->height() - SIZE_ADJUSTMENT);
+        }
+        break;
+    case 3:
+        if (paddle == 1)
+        {
+            ui->paddle1->setFixedHeight(ui->paddle1->height() + SIZE_ADJUSTMENT);
+        }
+        else
+        {
+            ui->paddle2->setFixedHeight(ui->paddle2->height() + SIZE_ADJUSTMENT);
+        }
+        break;
+    default:
+        perror("Invalid powerup id passed to activatePowerup()!");
+    }
 }
 
 void MainWindow::movePowerup(int x_coord, int y_coord)
