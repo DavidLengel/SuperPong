@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#define SIZE_ADJUSTMENT 300
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -32,6 +34,7 @@ public:
     void spawnPowerup(int);
     void despawnPowerup();
     void activatePowerup(int,int);
+    void deactivatePowerup(int,int);
 
 protected:
     void keyPressEvent(QKeyEvent*);
