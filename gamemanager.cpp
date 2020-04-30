@@ -24,13 +24,13 @@ typedef struct thread_arguments
 GameManager::GameManager()
 {
     // power-up spawn timer goes off after 10 seconds
-    pup_spawn_timer.setTimerSize(10);
-    pup_spawn_timer.setTokenTime(1000000);
-    pup_spawn_timer.resetTimer();   // start this timer immediately, runs for entirety of game
+    powerup_spawn_timer.setTimerSize(10);
+    powerup_spawn_timer.setTokenTime(1000000);
+    powerup_spawn_timer.resetTimer();   // start this timer immediately, runs for entirety of game
 
     // power-up active timer goes off after 5 seconds
-    pup_active_timer.setTimerSize(5);
-    pup_active_timer.setTokenTime(1000000);
+    powerup_active_timer.setTimerSize(5);
+    powerup_active_timer.setTokenTime(1000000);
 }
 
 int GameManager::run(MainWindow& w)
@@ -85,6 +85,7 @@ void *thread_producer_fn(void *args)
     int lastWallCollided_powerup = 0;
     int lastPaddleCollided = 0;
     int lastGoalCollided = 0;
+    int activePowerup = 0;
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
@@ -97,68 +98,85 @@ void *thread_producer_fn(void *args)
         /**********************************************/
         /***************** POWERUP ********************/
 
-        // check if a powerup needs spawned or despawned
-        if(game_manager->pup_spawn_timer.processTimer()) {
-            cout << "10 seconds passed." << endl;
-
-            *powerup_state = (*powerup_state+1)%6;
-            int state = *powerup_state;
-
-            switch(state)
-            {
-                case 0:
-                    cout << "Powerup state 0" << endl;
-                    window->despawnPowerup();
-                    break;
-                case 1:
-                    cout << "Powerup state 1" << endl;
-                    window->spawnPowerup(1);
-                    break;
-                case 2:
-                    cout << "Powerup state 2" << endl;
-                    window->despawnPowerup();
-                    break;
-                case 3:
-                    cout << "Powerup state 3" << endl;
-                    window->spawnPowerup(2);
-                    break;
-                case 4:
-                    cout << "Powerup state 4" << endl;
-                    window->despawnPowerup();
-                    break;
-                case 5:
-                    cout << "Powerup state 5" << endl;
-                    window->spawnPowerup(3);
-            }
-        }
-
-        // if it is in a state where a powerup is visible
-        if(*powerup_state == 1 || *powerup_state == 3 || *powerup_state == 5)
+        // if there is not a currently active powerup
+        if(activePowerup == 0)
         {
-            powerup.move();
-            powerupMessage->putMessage(powerup);
+            // check if a powerup needs spawned or despawned
+            if(game_manager->powerup_spawn_timer.processTimer())
+            {
+                *powerup_state = (*powerup_state+1)%6;
+                int state = *powerup_state;
 
-            // check if powerup had a wall collision
-            int currentPowerupWallCollision = window->checkPowerupWallCollision();
-            if (lastWallCollided_powerup != currentPowerupWallCollision && currentPowerupWallCollision != 0)
+                switch(state)
+                {
+                    case 0:
+                        cout << "Powerup state 0" << endl;
+                        window->despawnPowerup();
+                        break;
+                    case 1:
+                        cout << "Powerup state 1" << endl;
+                        window->spawnPowerup(1);
+                        break;
+                    case 2:
+                        cout << "Powerup state 2" << endl;
+                        window->despawnPowerup();
+                        break;
+                    case 3:
+                        cout << "Powerup state 3" << endl;
+                        window->spawnPowerup(2);
+                        break;
+                    case 4:
+                        cout << "Powerup state 4" << endl;
+                        window->despawnPowerup();
+                        break;
+                    case 5:
+                        cout << "Powerup state 5" << endl;
+                        window->spawnPowerup(3);
+                }
+            } // if(game_manager->powerup_spawn_timer.processTimer())
+
+            // if it is in a state where a powerup is visible
+            if(*powerup_state == 1 || *powerup_state == 3 || *powerup_state == 5)
             {
-                powerup.collideWall();
-                lastWallCollided_powerup = currentPowerupWallCollision;
-            }
-            // check if powerup had a goal collision
-            int currentPowerupGoalCollision = window->checkPowerupGoalCollision();
-            if (lastGoalCollided != currentPowerupGoalCollision && currentPowerupGoalCollision != 0)
-            {
-                powerup.collideGoal();
-                lastGoalCollided = currentPowerupGoalCollision;
-            }
-            // check if powerup had a paddle collision
-            int powerupCollidedPaddle = window->checkPowerupPaddleCollision();
-            if (powerupCollidedPaddle != 0)
-            {
-                int new_powerup = *powerup_state == 1 ? 1 : *powerup_state == 3 ? 2 : 3;
-                window->activatePowerup(new_powerup, powerupCollidedPaddle);
-            }
+                powerup.move();
+                powerupMessage->putMessage(powerup);
+
+                // check if powerup had a wall collision
+                int currentPowerupWallCollision = window->checkPowerupWallCollision();
+                if (lastWallCollided_powerup != currentPowerupWallCollision && currentPowerupWallCollision != 0)
+                {
+                    powerup.collideWall();
+                    lastWallCollided_powerup = currentPowerupWallCollision;
+                }
+                // check if powerup had a goal collision
+                int currentPowerupGoalCollision = window->checkPowerupGoalCollision();
+                if (lastGoalCollided != currentPowerupGoalCollision && currentPowerupGoalCollision != 0)
+                {
+                    powerup.collideGoal();
+                    lastGoalCollided = currentPowerupGoalCollision;
+                }
+                // check if powerup had a paddle collision
+                int powerupCollidedPaddle = window->checkPowerupPaddleCollision();
+                if (powerupCollidedPaddle != 0)
+                {
+                    cout << "activating" << endl;
+                    // set the active powerup
+                    activePowerup = *powerup_state == 1 ? 1 : *powerup_state == 3 ? 2 : 3;
+                    // activate the corresponding powerup
+                    window->activatePowerup(activePowerup, powerupCollidedPaddle);
+                    // start the active powerup timer
+                    game_manager->powerup_active_timer.resetTimer();
+                }
+            } // if(*powerup_state == 1 || *powerup_state == 3 || *powerup_state == 5)
+        } // if(activePowerup == 0)
+
+        // if there is currently an active powerup and it needs to be deactivated
+        else if(game_manager->powerup_active_timer.processTimer())
+        {
+            // deactivate the powerup
+
+            // set the active powerup to none
+            activePowerup = 0;
         }
 
         /***************** POWERUP ********************/
