@@ -16,6 +16,8 @@ typedef struct thread_arguments
     MainWindow *w_p;
     bool gameActive;
     int winner;
+    GameManager *game_manager;
+    int powerup_state;
 } thread_arguments_t;
 
 GameManager::GameManager()
@@ -42,6 +44,8 @@ int GameManager::run(MainWindow& w)
     arguments.w_p = &w;
     arguments.gameActive = true;
     arguments.winner = 0;
+    arguments.game_manager = this;
+    arguments.powerup_state = 1;
 
     if(pthread_create(&thread_producer, NULL, thread_producer_fn, &arguments) != 0)
     {
@@ -68,6 +72,8 @@ void *thread_producer_fn(void *args)
     MainWindow *window = arguments->w_p;
     bool *gameActive = &arguments->gameActive;
     int *winner = &arguments->winner;
+    GameManager *game_manager = arguments->game_manager;
+    int *powerup_state = &arguments->powerup_state;
 
     Ball ball;
     int lastWallCollided = 0;
@@ -80,6 +86,37 @@ void *thread_producer_fn(void *args)
     int when_increase_speed = 1000000;
 
     while(*gameActive) {
+
+        // powerups
+        if(game_manager->pup_spawn_timer.processTimer()) {
+            cout << "10 seconds passed." << endl;
+            int state = *powerup_state;
+            switch(state)
+            {
+                case 0:
+                    cout << "Powerup state 0" << endl;
+                    break;
+                case 1:
+                    cout << "Powerup state 1" << endl;
+                    break;
+                case 2:
+                    cout << "Powerup state 2" << endl;
+                    break;
+                case 3:
+                    cout << "Powerup state 3" << endl;
+                    break;
+                case 4:
+                    cout << "Powerup state 4" << endl;
+                    break;
+                case 5:
+                    cout << "Powerup state 5" << endl;
+                    break;
+                case 6:
+                    cout << "Powerup state 6" << endl;
+            }
+            *powerup_state = (state+1)%7;
+        }
+
         // update ball variables
         ball.move();
 
@@ -150,6 +187,7 @@ void *thread_consumer_fn(void *args)
     Message<Ball> *ballMessage = arguments->ballMessage_p;
     MainWindow *window = arguments->w_p;
     bool *gameActive = &arguments->gameActive;
+    //int *powerup_state = &arguments->powerup_state;
 
     Ball ball;
 
