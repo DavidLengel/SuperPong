@@ -31,6 +31,7 @@ public:
     int checkSelectedGameSpeed();
     void spawnPowerup(int);
     void despawnPowerup();
+    void activatePowerup(int,int);
 
 protected:
     void keyPressEvent(QKeyEvent*);
