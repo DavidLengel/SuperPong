@@ -105,24 +105,26 @@ void MainWindow::activatePowerup(int powerup, int paddle)
         if (paddle == 1)
         {
             //ui->paddle1->setFixedHeight(ui->paddle1->height() + SIZE_ADJUSTMENT);
-            //ui->paddle1->resize(ui->paddle1->width(), ui->paddle1->height() + SIZE_ADJUSTMENT);
-            ui->paddle1->setGeometry(ui->paddle1->x(), ui->paddle1->y(), ui->paddle1->width(), ui->paddle1->height() + SIZE_ADJUSTMENT);
+            ui->paddle1->resize(ui->paddle1->width(), ui->paddle1->height() + SIZE_ADJUSTMENT);
+            //ui->paddle1->setGeometry(ui->paddle1->x(), ui->paddle1->y(), ui->paddle1->width(), ui->paddle1->height() + SIZE_ADJUSTMENT);
         }
         else
         {
             //ui->paddle2->setFixedHeight(ui->paddle2->height() + SIZE_ADJUSTMENT);
-            //ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
-            ui->paddle2->setGeometry(ui->paddle2->x(), ui->paddle2->y(), ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
+            ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
+            //ui->paddle2->setGeometry(ui->paddle2->x(), ui->paddle2->y(), ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
         }
         break;
     case 3:
         if (paddle == 1)
         {
-            ui->paddle1->setFixedHeight(ui->paddle1->height() - SIZE_ADJUSTMENT);
+            //ui->paddle1->setFixedHeight(ui->paddle1->height() - SIZE_ADJUSTMENT);
+            ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() - SIZE_ADJUSTMENT);
         }
         else
         {
-            ui->paddle2->setFixedHeight(ui->paddle2->height() - SIZE_ADJUSTMENT);
+            //ui->paddle2->setFixedHeight(ui->paddle2->height() - SIZE_ADJUSTMENT);
+            ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() - SIZE_ADJUSTMENT);
         }
         break;
     default:
