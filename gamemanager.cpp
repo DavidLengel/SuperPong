@@ -127,28 +127,48 @@ void *thread_producer_fn(void *args)
 
         ballMessage->putMessage(ball);
 
-        // check wall collision
-        int currentWallCollision = window->checkWallCollision();
-        if (lastWallCollided != currentWallCollision && currentWallCollision != 0)
+        // check if ball had a wall collision
+        int currentBallWallCollision = window->checkBallWallCollision();
+        if (lastWallCollided != currentBallWallCollision && currentBallWallCollision != 0)
         {
             ball.collideWall();
-            lastWallCollided = currentWallCollision;
+            lastWallCollided = currentBallWallCollision;
         }
-        // check paddle collision
-        int currentPaddleCollision = window->checkPaddleCollision();
-        if (lastPaddleCollided != currentPaddleCollision && currentPaddleCollision != 0)
+        // check if ball had a paddle collision
+        int currentBallPaddleCollision = window->checkBallPaddleCollision();
+        if (lastPaddleCollided != currentBallPaddleCollision && currentBallPaddleCollision != 0)
         {
             ball.collidePaddle();
-            lastPaddleCollided = currentPaddleCollision;
+            lastPaddleCollided = currentBallPaddleCollision;
         }
-        // check goal collision
-        int collidedGoal = window->checkGoalCollision();
-        if (collidedGoal != 0)
+        // check if ball had a goal collision
+        int ballCollidedGoal = window->checkBallGoalCollision();
+        if (ballCollidedGoal != 0)
         {
-            *winner = (collidedGoal == 1) ? 2 : 1;
+            *winner = (ballCollidedGoal == 1) ? 2 : 1;
             *gameActive = false;
             window->gameOver(*winner);
         }
+
+//        // check if powerup had a wall collision
+//        int currentPowerupWallCollision = window->checkBallWallCollision();
+//        if (lastWallCollided != currentPowerupWallCollision && currentPowerupWallCollision != 0)
+//        {
+//            powerup.collideWall();
+//            lastWallCollided = currentPowerupWallCollision;
+//        }
+//        // check if powerup had a paddle collision
+//        int currentPowerupPaddleCollision = window->checkBallPaddleCollision();
+//        if (lastPaddleCollided != currentPowerupPaddleCollision && currentPowerupPaddleCollision != 0)
+//        {
+//            powerup.collidePaddle();
+//        }
+//        // check if powerup had a goal collision
+//        int powerupCollidedGoal = window->checkBallGoalCollision();
+//        if (powerupCollidedGoal != 0)
+//        {
+//            powerup.collideGoal();
+//        }
 
 //        int speed = window->checkSelectedGameSpeed();
 

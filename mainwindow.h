@@ -14,24 +14,28 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void movePowerup(int,int,int);
     void moveBall(int,int);
     void moveLeftPaddle(int);
     void moveRightPaddle(int);
-    int checkWallCollision();
-    int checkPaddleCollision();
-    int checkGoalCollision();
+    int checkBallWallCollision();
+    int checkBallPaddleCollision();
+    int checkBallGoalCollision();
+    int checkPowerupWallCollision();
+    int checkPowerupPaddleCollision();
+    int checkPowerupGoalCollision();
     void gameOver(int);
     void matchOver(int);
     void nextGame();
     int checkSelectedMaxScore();
     int checkSelectedGameSpeed();
+    void spawnPowerup(int);
 
 protected:
     void keyPressEvent(QKeyEvent*);
 
 private slots:
     //void populateTextEdit();
-    void spawnPowerup();
 
 private:
     Ui::MainWindow *ui;

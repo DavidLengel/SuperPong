@@ -3,11 +3,11 @@
 
 #include "movingobject.h"
 
-class powerup : public MovingObject
+class Powerup : public MovingObject
 {
 public:
-    powerup();
-    powerup(int,int,int,int);
+    Powerup();
+    Powerup(int,int,int,int);
     void collidePaddle() override;
     void collideGoal() override;
 };
