@@ -34,7 +34,7 @@ public:
     void spawnPowerup(int);
     void despawnPowerup();
     void activatePowerup(int,int);
-    void deactivatePowerup(int,int);
+    void deactivatePowerup(int);
     void centerPowerup();
 
 protected:

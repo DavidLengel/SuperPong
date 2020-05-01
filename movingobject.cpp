@@ -34,8 +34,8 @@ MovingObject::MovingObject(bool isBall) :
 
     if(!isBall)
     {
-        x_timer_size += 150;
-        y_timer_size += 150;
+        x_timer_size -= 100;
+        y_timer_size -= 100;
     }
 
     x_timer.setTimerSize(x_timer_size);

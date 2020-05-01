@@ -126,32 +126,19 @@ void MainWindow::activatePowerup(int powerup, int paddle)
     }
 }
 
-void MainWindow::deactivatePowerup(int powerup, int paddle)
+void MainWindow::deactivatePowerup(int powerup)
 {
+    const int original_paddle_size = 100;
+
     switch(powerup)
     {
     case 1:
         //ui->
         break;
     case 2:
-        if (paddle == 1)
-        {
-            ui->paddle1->resize(ui->paddle1->width(), ui->paddle1->height() - SIZE_ADJUSTMENT);
-        }
-        else
-        {
-            ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() - SIZE_ADJUSTMENT);
-        }
-        break;
     case 3:
-        if (paddle == 1)
-        {
-            ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
-        }
-        else
-        {
-            ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
-        }
+            ui->paddle1->resize(ui->paddle1->width(), original_paddle_size);
+            ui->paddle2->resize(ui->paddle2->width(), original_paddle_size);
         break;
     default:
         perror("Invalid powerup id passed to activatePowerup()!");

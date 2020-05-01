@@ -24,7 +24,7 @@ typedef struct thread_arguments
 GameManager::GameManager()
 {
     // power-up spawn timer goes off after 10 seconds
-    powerup_spawn_timer.setTimerSize(10);
+    powerup_spawn_timer.setTimerSize(7);
     powerup_spawn_timer.setTokenTime(1000000);
     powerup_spawn_timer.resetTimer();   // start this timer immediately, runs for entirety of game
 
@@ -117,6 +117,7 @@ void *thread_producer_fn(void *args)
                         window->spawnPowerup(1);
                         powerup.setLocationCenter();
                         window->centerPowerup();
+                        powerup.setXVelocity(-powerup.getXVelocity());
                         break;
                     case 2:
                         window->despawnPowerup();
@@ -125,6 +126,7 @@ void *thread_producer_fn(void *args)
                         window->spawnPowerup(2);
                         powerup.setLocationCenter();
                         window->centerPowerup();
+                        powerup.setXVelocity(-powerup.getXVelocity());
                         break;
                     case 4:
                         window->despawnPowerup();
@@ -133,6 +135,7 @@ void *thread_producer_fn(void *args)
                         window->spawnPowerup(3);
                         powerup.setLocationCenter();
                         window->centerPowerup();
+                        powerup.setXVelocity(-powerup.getXVelocity());
                 }
             } // if(game_manager->powerup_spawn_timer.processTimer())
 
@@ -179,7 +182,7 @@ void *thread_producer_fn(void *args)
         {
             cout << "Deactivating Powerup " << activePowerup << endl;
             // deactivate the powerup
-            window->deactivatePowerup(activePowerup, powerupCollidedPaddle);
+            window->deactivatePowerup(activePowerup);
             // set the active powerup to none
             activePowerup = 0;
             *powerup_state = (*powerup_state+1)%6;
@@ -222,6 +225,10 @@ void *thread_producer_fn(void *args)
         {
             *winner = (ballCollidedGoal == 1) ? 2 : 1;
             *gameActive = false;
+            for(int i = 1; i < 4; ++i) {
+                window->deactivatePowerup(i);
+            }
+            window->despawnPowerup();
             window->gameOver(*winner);
         }
 
