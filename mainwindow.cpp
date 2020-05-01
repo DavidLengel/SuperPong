@@ -104,24 +104,20 @@ void MainWindow::activatePowerup(int powerup, int paddle)
     case 2:
         if (paddle == 1)
         {
-            ui->paddle1->setMaximumSize(ui->paddle1->width(), ui->paddle1->height() + SIZE_ADJUSTMENT);
             ui->paddle1->resize(ui->paddle1->width(), ui->paddle1->height() + SIZE_ADJUSTMENT);
         }
         else
         {
-            ui->paddle2->setMaximumSize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
             ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
         }
         break;
     case 3:
         if (paddle == 1)
         {
-            ui->paddle1->setMinimumSize(ui->paddle1->width(), ui->paddle1->height() + SIZE_ADJUSTMENT);
             ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() - SIZE_ADJUSTMENT);
         }
         else
         {
-            ui->paddle2->setMinimumSize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
             ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() - SIZE_ADJUSTMENT);
         }
         break;
@@ -140,24 +136,20 @@ void MainWindow::deactivatePowerup(int powerup, int paddle)
     case 2:
         if (paddle == 1)
         {
-            ui->paddle1->setMinimumSize(ui->paddle1->width(), ui->paddle1->height() - SIZE_ADJUSTMENT);
             ui->paddle1->resize(ui->paddle1->width(), ui->paddle1->height() - SIZE_ADJUSTMENT);
         }
         else
         {
-            ui->paddle2->setMaximumSize(ui->paddle2->width(), ui->paddle2->height() - SIZE_ADJUSTMENT);
             ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() - SIZE_ADJUSTMENT);
         }
         break;
     case 3:
         if (paddle == 1)
         {
-            ui->paddle1->setMinimumSize(ui->paddle1->width(), ui->paddle1->height() + SIZE_ADJUSTMENT);
             ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
         }
         else
         {
-            ui->paddle2->setMinimumSize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
             ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() + SIZE_ADJUSTMENT);
         }
         break;

@@ -86,6 +86,7 @@ void *thread_producer_fn(void *args)
     int lastPaddleCollided = 0;
     int lastGoalCollided = 0;
     int activePowerup = 0;
+    int powerupCollidedPaddle = -1;
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
@@ -135,6 +136,7 @@ void *thread_producer_fn(void *args)
                 }
             } // if(game_manager->powerup_spawn_timer.processTimer())
 
+
             // if it is in a state where a powerup is visible
             if(*powerup_state == 1 || *powerup_state == 3 || *powerup_state == 5)
             {
@@ -156,10 +158,10 @@ void *thread_producer_fn(void *args)
                     lastGoalCollided = currentPowerupGoalCollision;
                 }
                 // check if powerup had a paddle collision
-                int powerupCollidedPaddle = window->checkPowerupPaddleCollision();
+                powerupCollidedPaddle = window->checkPowerupPaddleCollision();
                 if (powerupCollidedPaddle != 0)
                 {
-                    cout << "activating" << endl;
+                    cout << "Activating Powerup " << activePowerup << endl;
                     // set the active powerup
                     activePowerup = *powerup_state == 1 ? 1 : *powerup_state == 3 ? 2 : 3;
                     // activate the corresponding powerup
@@ -173,8 +175,9 @@ void *thread_producer_fn(void *args)
         // if there is currently an active powerup and it needs to be deactivated
         else if(game_manager->powerup_active_timer.processTimer())
         {
+            cout << "Deactivating Powerup " << activePowerup << endl;
             // deactivate the powerup
-
+            window->deactivatePowerup(activePowerup, powerupCollidedPaddle);
             // set the active powerup to none
             activePowerup = 0;
         }
