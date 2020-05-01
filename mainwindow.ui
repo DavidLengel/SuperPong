@@ -3555,19 +3555,6 @@ color: red;</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>830</x>
-      <y>400</y>
-      <width>88</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="powerupChargeLabel">
     <property name="geometry">
      <rect>
@@ -3673,7 +3660,6 @@ color: red;</string>
    <zorder>goal2</zorder>
    <zorder>topWall</zorder>
    <zorder>winnerLabel</zorder>
-   <zorder>pushButton</zorder>
    <zorder>powerupChargeLabel</zorder>
    <zorder>powerupExtendLabel</zorder>
    <zorder>powerupShrinkLabel</zorder>
