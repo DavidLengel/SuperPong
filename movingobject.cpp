@@ -83,6 +83,8 @@ int MovingObject::getXVelocity()
 void MovingObject::setXVelocity(int x_vel)
 {
     x_velocity = x_vel;
+//    x_timer.setTimerSize(x_velocity);
+//    x_timer.resetTimer();
 }
 
 int MovingObject::getYVelocity()
@@ -93,6 +95,8 @@ int MovingObject::getYVelocity()
 void MovingObject::setYVelocity(int y_vel)
 {
     y_velocity = y_vel;
+//    y_timer.setTimerSize(y_velocity);
+//    y_timer.resetTimer();
 }
 
 void MovingObject::move()

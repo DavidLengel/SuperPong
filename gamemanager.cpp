@@ -87,6 +87,7 @@ void *thread_producer_fn(void *args)
     int lastGoalCollided = 0;
     int activePowerup = 0;
     int powerupCollidedPaddle = -1;
+    bool powerup1Activated = 0;
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
@@ -115,28 +116,32 @@ void *thread_producer_fn(void *args)
                         break;
                     case 1:
                         window->spawnPowerup(1);
+                        lastGoalCollided = 0;
                         powerup.setLocationCenter();
                         window->centerPowerup();
-                        powerup.setXVelocity(-powerup.getXVelocity());
+//                        powerup.setXVelocity(-powerup.getXVelocity());
                         break;
                     case 2:
                         window->despawnPowerup();
                         break;
                     case 3:
                         window->spawnPowerup(2);
+                        lastGoalCollided = 0;
                         powerup.setLocationCenter();
                         window->centerPowerup();
-                        powerup.setXVelocity(-powerup.getXVelocity());
+//                        powerup.setXVelocity(-powerup.getXVelocity());
                         break;
                     case 4:
                         window->despawnPowerup();
                         break;
                     case 5:
                         window->spawnPowerup(3);
+                        lastGoalCollided = 0;
                         powerup.setLocationCenter();
                         window->centerPowerup();
-                        powerup.setXVelocity(-powerup.getXVelocity());
+//                        powerup.setXVelocity(-powerup.getXVelocity());
                 }
+                powerup.setXVelocity(-powerup.getXVelocity());
             } // if(game_manager->powerup_spawn_timer.processTimer())
 
 
@@ -166,11 +171,21 @@ void *thread_producer_fn(void *args)
                 powerupCollidedPaddle = window->checkPowerupPaddleCollision();
                 if (powerupCollidedPaddle != 0)
                 {
-                    cout << "Activating Powerup " << activePowerup << endl;
                     // set the active powerup
                     activePowerup = *powerup_state == 1 ? 1 : *powerup_state == 3 ? 2 : 3;
+                    cout << "Activating Powerup " << activePowerup << endl;
+                    if (activePowerup == 1)
+                    {
+                        if (ball.getXVelocity() > SPEED_OFFSET && ball.getYVelocity() > SPEED_OFFSET)
+                        {
+                            ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
+                            ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
+                            powerup1Activated = 1;
+                        }
+                    }
                     // activate the corresponding powerup
                     window->activatePowerup(activePowerup, powerupCollidedPaddle);
+
                     // start the active powerup timer
                     game_manager->powerup_active_timer.resetTimer();
                 }
@@ -182,7 +197,16 @@ void *thread_producer_fn(void *args)
         {
             cout << "Deactivating Powerup " << activePowerup << endl;
             // deactivate the powerup
-            window->deactivatePowerup(activePowerup);
+            if (activePowerup == 1 && powerup1Activated)
+            {
+                ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
+                ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
+                powerup1Activated = 0;
+            }
+            else
+            {
+                window->deactivatePowerup(activePowerup);
+            }
             // set the active powerup to none
             activePowerup = 0;
             *powerup_state = (*powerup_state+1)%6;

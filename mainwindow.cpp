@@ -118,7 +118,7 @@ void MainWindow::activatePowerup(int powerup, int paddle)
         }
         else
         {
-            ui->paddle2->resize(ui->paddle2->width(), ui->paddle2->height() - SIZE_ADJUSTMENT);
+            ui->paddle1->resize(ui->paddle1->width(), ui->paddle1->height() - SIZE_ADJUSTMENT);
         }
         break;
     default:
@@ -132,9 +132,6 @@ void MainWindow::deactivatePowerup(int powerup)
 
     switch(powerup)
     {
-    case 1:
-        //ui->
-        break;
     case 2:
     case 3:
             ui->paddle1->resize(ui->paddle1->width(), original_paddle_size);
