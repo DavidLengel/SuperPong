@@ -8,8 +8,6 @@ using namespace std;
 void *thread_producer_fn(void *);
 void *thread_consumer_fn(void *);
 
-static const int sleep_time = 5000;
-
 typedef struct thread_arguments
 {
     Message<Ball> *ballMessage_p;
@@ -89,12 +87,13 @@ void *thread_producer_fn(void *args)
     int powerupCollidedPaddle = -1;
     bool powerup1Changed[4] = {0,0,0,0};
     bool powerup1XYPositive[2] = {0, 0};
+    bool powerup1VelocityChanged = 0;
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
 
     int increase_speed = 0;
-    int when_increase_speed = 1000000;
+    int when_increase_speed = 10000000;
 
     while(*gameActive) {
 
@@ -175,24 +174,53 @@ void *thread_producer_fn(void *args)
                     {
                         if(ball.getXVelocity() > 0 && ball.getXVelocity() > SPEED_OFFSET)
                         {
-                            ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
-                            powerup1Changed[0] = true;
-                            powerup1XYPositive[0] = true;
+                            cout << "here1" << endl;
+                            powerup1VelocityChanged = true;
                         }
-                        else if(ball.getXVelocity() < SPEED_OFFSET)
+                        else if (ball.getXVelocity() < 0 && ball.getXVelocity() < -SPEED_OFFSET)
                         {
-                            ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
-                            powerup1Changed[1] = true;
+                            cout << "here2" << endl;
+                            powerup1VelocityChanged = true;
                         }
-                        if(ball.getYVelocity() > 0 && ball.getYVelocity() > SPEED_OFFSET)
+                        if(ball.getYVelocity() > 0 && ball.getYVelocity() < SPEED_OFFSET)
                         {
-                            ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
-                            powerup1Changed[2] = true;
-                            powerup1XYPositive[1] = true;
+                            cout << "here3" << endl;
+                            powerup1VelocityChanged = false;
                         }
-                        else if(ball.getYVelocity() < SPEED_OFFSET) {
-                            ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
-                            powerup1Changed[3] = true;
+                        else if(ball.getYVelocity() < 0 && ball.getYVelocity() > -SPEED_OFFSET)
+                        {
+                            cout << "here4" << endl;
+                            powerup1VelocityChanged = false;
+                        }
+
+                        if(powerup1VelocityChanged) {
+                            cout << "change velocity" << endl;
+                            if(ball.getXVelocity() > 0 && ball.getXVelocity() > SPEED_OFFSET)
+                            {
+                                ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
+                                powerup1Changed[0] = true;
+                                powerup1XYPositive[0] = true;
+                            }
+                            else if(ball.getXVelocity() < -SPEED_OFFSET)
+                            {
+                                ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
+                                powerup1Changed[1] = true;
+                            }
+                            if(ball.getYVelocity() > 0 && ball.getYVelocity() > SPEED_OFFSET)
+                            {
+                                ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
+                                powerup1Changed[2] = true;
+                                powerup1XYPositive[1] = true;
+                            }
+                            else if(ball.getYVelocity() < -SPEED_OFFSET)
+                            {
+                                ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
+                                powerup1Changed[3] = true;
+                            }
+                        }
+                        else
+                        {
+                            cout << "not changing velocity" << endl;
                         }
                     }
                     // activate the corresponding powerup
@@ -210,56 +238,59 @@ void *thread_producer_fn(void *args)
             // deactivate the powerup
             if (activePowerup == 1)
             {
-                if(ball.getXVelocity() > 0 && powerup1XYPositive[0]) {
-                    if(powerup1Changed[0])
-                    {
-                        ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
-                        powerup1Changed[0] = false;
-                    }
-                    else if(powerup1Changed[1])
-                    {
-                        ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
-                        powerup1Changed[1] = false;
-                    }
-                    powerup1XYPositive[0] = false;
-                }
-                else {
-                    if(powerup1Changed[0])
-                    {
-                        ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
-                        powerup1Changed[0] = false;
-                    }
-                    else if(powerup1Changed[1])
-                    {
-                        ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
-                        powerup1Changed[1] = false;
-                    }
-                }
-                if(ball.getYVelocity() > 0 && powerup1XYPositive[1])
+                if(powerup1VelocityChanged)
                 {
-                    if(powerup1Changed[2])
-                    {
-                        ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
-                        powerup1Changed[2] = false;
+                    if(ball.getXVelocity() > 0 && powerup1XYPositive[0]) {
+                        if(powerup1Changed[0])
+                        {
+                            ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
+                            powerup1Changed[0] = false;
+                        }
+                        else if(powerup1Changed[1])
+                        {
+                            ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
+                            powerup1Changed[1] = false;
+                        }
+                        powerup1XYPositive[0] = false;
                     }
-                    else if(powerup1Changed[3])
-                    {
-                        ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
-                        powerup1Changed[3] = false;
+                    else {
+                        if(powerup1Changed[0])
+                        {
+                            ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
+                            powerup1Changed[0] = false;
+                        }
+                        else if(powerup1Changed[1])
+                        {
+                            ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
+                            powerup1Changed[1] = false;
+                        }
                     }
-                    powerup1XYPositive[1] = false;
-                }
-                else
-                {
-                    if(powerup1Changed[2])
+                    if(ball.getYVelocity() > 0 && powerup1XYPositive[1])
                     {
-                        ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
-                        powerup1Changed[2] = false;
+                        if(powerup1Changed[2])
+                        {
+                            ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
+                            powerup1Changed[2] = false;
+                        }
+                        else if(powerup1Changed[3])
+                        {
+                            ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
+                            powerup1Changed[3] = false;
+                        }
+                        powerup1XYPositive[1] = false;
                     }
-                    else if(powerup1Changed[3])
+                    else
                     {
-                        ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
-                        powerup1Changed[3] = false;
+                        if(powerup1Changed[2])
+                        {
+                            ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
+                            powerup1Changed[2] = false;
+                        }
+                        else if(powerup1Changed[3])
+                        {
+                            ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
+                            powerup1Changed[3] = false;
+                        }
                     }
                 }
             }
@@ -284,6 +315,7 @@ void *thread_producer_fn(void *args)
         // increase speed gradually
         if(increase_speed == when_increase_speed-1) {
             ball.increaseSpeed();
+            cout << "Increasing speed: " << ball.getXVelocity() << " " << ball.getYVelocity() << endl;
         }
         increase_speed = (increase_speed+1)%when_increase_speed;
 
@@ -364,7 +396,7 @@ void *thread_producer_fn(void *args)
 //            lastSpeedSetting = speed;
 //        }
     }
-    usleep(100);
+    usleep(1000);
     pthread_exit(NULL);
 }
 
@@ -391,7 +423,7 @@ void *thread_consumer_fn(void *args)
         {
             window->movePowerup(powerup.getLocation().first, powerup.getLocation().second);
         }
-        usleep(sleep_time);
+        usleep(30000);
     }
     pthread_exit(NULL);
 }

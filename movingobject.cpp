@@ -7,9 +7,9 @@ MovingObject::MovingObject(bool isBall) :
     x_coord(330), y_coord(200)
 {
     qsrand(time(0));
-    int randval = qrand() % 501;
-    x_velocity = randval + 400;
-    y_velocity = 900 - randval;
+    int randval = qrand() % 51;
+    x_velocity = randval + 40;
+    y_velocity = 90 - randval;
 
     int x_timer_size = x_velocity;
     int y_timer_size = y_velocity;
@@ -34,16 +34,16 @@ MovingObject::MovingObject(bool isBall) :
 
     if(!isBall)
     {
-        x_timer_size -= 100;
-        y_timer_size -= 100;
+        x_timer_size -= 10;
+        y_timer_size -= 10;
     }
 
     x_timer.setTimerSize(x_timer_size);
-    x_timer.setTokenTime(10);
+    x_timer.setTokenTime(100);
     x_timer.resetTimer();
 
     y_timer.setTimerSize(y_timer_size);
-    y_timer.setTokenTime(10);
+    y_timer.setTokenTime(100);
     y_timer.resetTimer();
 }
 
