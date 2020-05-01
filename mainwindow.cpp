@@ -3,6 +3,7 @@
 #include <QThread>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QGraphicsEffect>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     grabKeyboard();
     setUpMenu();
-    //activatePowerup(100);
+    setUpPowerupLabels();
 }
 
 MainWindow::~MainWindow()
@@ -33,6 +34,40 @@ void MainWindow::setUpMenu()
     GameSpeedGroup->addAction(ui->actionInsanelyFast);
 }
 
+void MainWindow::setUpPowerupLabels()
+{
+    setPowerupLabelOpacity(1, 0.25);
+    QPixmap pixmapTarget = QPixmap("/home/images/ChargePowerup.png");
+    ui->powerupChargeLabel->setPixmap(pixmapTarget);
+
+    setPowerupLabelOpacity(2, 0.25);
+    pixmapTarget = QPixmap("/home/images/ExtendPowerup.png");
+    ui->powerupExtendLabel->setPixmap(pixmapTarget);
+
+    setPowerupLabelOpacity(3, 0.25);
+    pixmapTarget = QPixmap("/home/images/ShrinkPowerup.png");
+    ui->powerupShrinkLabel->setPixmap(pixmapTarget);
+}
+
+void MainWindow::setPowerupLabelOpacity(int powerup, float opacity)
+{
+    QGraphicsOpacityEffect *op = new QGraphicsOpacityEffect();
+    op->setOpacity(opacity);
+
+    switch(powerup)
+    {
+    case 1:
+        ui->powerupChargeLabel->setGraphicsEffect(op);
+        break;
+    case 2:
+        ui->powerupExtendLabel->setGraphicsEffect(op);
+        break;
+    case 3:
+        ui->powerupShrinkLabel->setGraphicsEffect(op);
+        break;
+    }
+}
+
 int MainWindow::checkSelectedMaxScore()
 {
     if(ui->action7->isChecked())
@@ -44,27 +79,6 @@ int MainWindow::checkSelectedMaxScore()
     else
         return -1;
 }
-
-int MainWindow::checkSelectedGameSpeed()
-{
-    if(ui->actionSlow->isChecked())
-        return 100;
-    else if(ui->actionNormal->isChecked())
-        return 0;
-    else if(ui->actionFast->isChecked())
-        return -100;
-    else if(ui->actionInsanelyFast->isChecked())
-        return -200;
-    else
-        return -1;
-}
-
-//void MainWindow::populateTextEdit()
-//{
-//    ui->historyList->addItem("Cool Dude 66");
-//    //paddle moves between top wall and bottom wall
-//    ui->paddle1->move(ui->paddle1->x(), rand() % (ui->gameField->height() - ui->paddle1->height()) + ui->gameField->y());
-//}
 
 void MainWindow::spawnPowerup(int powerup)
 {
@@ -96,10 +110,10 @@ void MainWindow::despawnPowerup()
 void MainWindow::activatePowerup(int powerup, int paddle)
 {
     despawnPowerup();
+    setPowerupLabelOpacity(powerup, 1);
     switch(powerup)
     {
     case 1:
-        //ui->
         break;
     case 2:
         if (paddle == 1)
@@ -129,16 +143,12 @@ void MainWindow::activatePowerup(int powerup, int paddle)
 void MainWindow::deactivatePowerup(int powerup)
 {
     const int original_paddle_size = 100;
+    setPowerupLabelOpacity(powerup, 0.25);
 
-    switch(powerup)
+    if (powerup == 2 || powerup == 3)
     {
-    case 2:
-    case 3:
-            ui->paddle1->resize(ui->paddle1->width(), original_paddle_size);
-            ui->paddle2->resize(ui->paddle2->width(), original_paddle_size);
-        break;
-    default:
-        perror("Invalid powerup id passed to activatePowerup()!");
+        ui->paddle1->resize(ui->paddle1->width(), original_paddle_size);
+        ui->paddle2->resize(ui->paddle2->width(), original_paddle_size);
     }
 }
 
@@ -259,6 +269,10 @@ void MainWindow::gameOver(int winner)
         ui->p1Score->setText(QString::number((ui->p1Score->text().toInt()) + 1));
     else
         ui->p2Score->setText(QString::number((ui->p2Score->text().toInt()) + 1));
+
+    setPowerupLabelOpacity(1, 0.25);
+    setPowerupLabelOpacity(2, 0.25);
+    setPowerupLabelOpacity(3, 0.25);
 }
 
 void MainWindow::matchOver(int winner)

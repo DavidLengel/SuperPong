@@ -14,16 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListWidget" name="historyList">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>245</y>
-      <width>241</width>
-      <height>131</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="gameField">
     <property name="geometry">
      <rect>
@@ -497,8 +487,8 @@
    <widget class="QLabel" name="p1ScoreLabel">
     <property name="geometry">
      <rect>
-      <x>740</x>
-      <y>110</y>
+      <x>750</x>
+      <y>240</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -520,8 +510,8 @@
    <widget class="QLabel" name="p1Score">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>150</y>
+      <x>770</x>
+      <y>280</y>
       <width>81</width>
       <height>71</height>
      </rect>
@@ -998,8 +988,8 @@
    <widget class="QLabel" name="p2ScoreLabel">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>110</y>
+      <x>900</x>
+      <y>240</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -1021,8 +1011,8 @@
    <widget class="QLabel" name="p2Score">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>150</y>
+      <x>910</x>
+      <y>280</y>
       <width>81</width>
       <height>71</height>
      </rect>
@@ -2125,8 +2115,8 @@ background-color: gray;</string>
    <widget class="QLabel" name="gameCountLabel">
     <property name="geometry">
      <rect>
-      <x>790</x>
-      <y>60</y>
+      <x>800</x>
+      <y>190</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -2143,8 +2133,8 @@ background-color: gray;</string>
    <widget class="QLabel" name="gameCount">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>50</y>
+      <x>900</x>
+      <y>180</y>
       <width>51</width>
       <height>51</height>
      </rect>
@@ -3565,8 +3555,86 @@ color: red;</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>400</y>
+      <width>88</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="powerupChargeLabel">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>5</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Images/ChargePowerup.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="powerupExtendLabel">
+    <property name="geometry">
+     <rect>
+      <x>355</x>
+      <y>5</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Images/ExtendPowerup.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="powerupShrinkLabel">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>5</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Images/ShrinkPowerup.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
    <zorder>gameField</zorder>
-   <zorder>historyList</zorder>
    <zorder>p1ScoreLabel</zorder>
    <zorder>p1Score</zorder>
    <zorder>p2ScoreLabel</zorder>
@@ -3583,6 +3651,10 @@ color: red;</string>
    <zorder>goal2</zorder>
    <zorder>topWall</zorder>
    <zorder>winnerLabel</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>powerupChargeLabel</zorder>
+   <zorder>powerupExtendLabel</zorder>
+   <zorder>powerupShrinkLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

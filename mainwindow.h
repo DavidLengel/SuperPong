@@ -30,12 +30,12 @@ public:
     void matchOver(int);
     void nextGame();
     int checkSelectedMaxScore();
-    int checkSelectedGameSpeed();
     void spawnPowerup(int);
     void despawnPowerup();
     void activatePowerup(int,int);
     void deactivatePowerup(int);
     void centerPowerup();
+    void setPowerupLabelOpacity(int,float);
 
 protected:
     void keyPressEvent(QKeyEvent*);
@@ -46,5 +46,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void setUpMenu();
+    void setUpPowerupLabels();
 };
 #endif // MAINWINDOW_H

@@ -285,10 +285,9 @@ void *thread_producer_fn(void *args)
                     }
                 }
             }
-            else
-            {
-                window->deactivatePowerup(activePowerup);
-            }
+
+            window->deactivatePowerup(activePowerup);
+
             // set the active powerup to none
             activePowerup = 0;
             *powerup_state = (*powerup_state+1)%6;
@@ -340,51 +339,6 @@ void *thread_producer_fn(void *args)
 
         /****************** BALL **********************/
         /**********************************************/
-
-//        // check if powerup had a wall collision
-//        int currentPowerupWallCollision = window->checkBallWallCollision();
-//        if (lastWallCollided != currentPowerupWallCollision && currentPowerupWallCollision != 0)
-//        {
-//            powerup.collideWall();
-//            lastWallCollided = currentPowerupWallCollision;
-//        }
-//        // check if powerup had a paddle collision
-//        int currentPowerupPaddleCollision = window->checkBallPaddleCollision();
-//        if (lastPaddleCollided != currentPowerupPaddleCollision && currentPowerupPaddleCollision != 0)
-//        {
-//            powerup.collidePaddle();
-//        }
-//        // check if powerup had a goal collision
-//        int powerupCollidedGoal = window->checkBallGoalCollision();
-//        if (powerupCollidedGoal != 0)
-//        {
-//            powerup.collideGoal();
-//        }
-
-//        int speed = window->checkSelectedGameSpeed();
-
-//        if (speed != lastSpeedSetting)
-//        {
-//            if (ball.getXVelocity() >= 0)
-//            {
-//                ball.setXVelocity(ball.getXVelocity() + speed);
-//            }
-//            else
-//            {
-//                ball.setXVelocity(ball.getXVelocity() - speed);
-//            }
-
-//            if (ball.getYVelocity() >= 0)
-//            {
-//                ball.setYVelocity(ball.getYVelocity() + speed);
-//            }
-//            else
-//            {
-//                ball.setYVelocity(ball.getYVelocity() - speed);
-//            }
-
-//            lastSpeedSetting = speed;
-//        }
     }
     usleep(1000);
     pthread_exit(NULL);
