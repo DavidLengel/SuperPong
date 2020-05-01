@@ -34,8 +34,8 @@ MovingObject::MovingObject(bool isBall) :
 
     if(!isBall)
     {
-        x_timer_size += 400;
-        y_timer_size += 400;
+        x_timer_size += 150;
+        y_timer_size += 150;
     }
 
     x_timer.setTimerSize(x_timer_size);
@@ -119,4 +119,9 @@ void MovingObject::move()
             y_coord--;
         }
     }
+}
+
+void MovingObject::setLocationCenter() {
+    x_coord = 330;
+    y_coord = 200;
 }

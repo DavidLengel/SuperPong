@@ -28,8 +28,8 @@ GameManager::GameManager()
     powerup_spawn_timer.setTokenTime(1000000);
     powerup_spawn_timer.resetTimer();   // start this timer immediately, runs for entirety of game
 
-    // power-up active timer goes off after 5 seconds
-    powerup_active_timer.setTimerSize(5);
+    // power-up active timer goes off after 10 seconds
+    powerup_active_timer.setTimerSize(10);
     powerup_active_timer.setTokenTime(1000000);
 }
 
@@ -110,34 +110,36 @@ void *thread_producer_fn(void *args)
                 switch(state)
                 {
                     case 0:
-                        cout << "Powerup state 0" << endl;
                         window->despawnPowerup();
                         break;
                     case 1:
-                        cout << "Powerup state 1" << endl;
                         window->spawnPowerup(1);
+                        powerup.setLocationCenter();
+                        window->centerPowerup();
                         break;
                     case 2:
-                        cout << "Powerup state 2" << endl;
                         window->despawnPowerup();
                         break;
                     case 3:
-                        cout << "Powerup state 3" << endl;
                         window->spawnPowerup(2);
+                        powerup.setLocationCenter();
+                        window->centerPowerup();
                         break;
                     case 4:
-                        cout << "Powerup state 4" << endl;
                         window->despawnPowerup();
                         break;
                     case 5:
-                        cout << "Powerup state 5" << endl;
                         window->spawnPowerup(3);
+                        powerup.setLocationCenter();
+                        window->centerPowerup();
                 }
             } // if(game_manager->powerup_spawn_timer.processTimer())
 
             // if it is in a state where a powerup is visible
             if(*powerup_state == 1 || *powerup_state == 3 || *powerup_state == 5)
             {
+                // reset to center if it has just been spawned
+
                 powerup.move();
                 powerupMessage->putMessage(powerup);
 
@@ -174,9 +176,10 @@ void *thread_producer_fn(void *args)
         else if(game_manager->powerup_active_timer.processTimer())
         {
             // deactivate the powerup
-
+            cout << "deactivating" << endl;
             // set the active powerup to none
             activePowerup = 0;
+            *powerup_state = (*powerup_state+1)%6;
         }
 
         /***************** POWERUP ********************/

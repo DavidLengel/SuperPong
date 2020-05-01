@@ -35,6 +35,7 @@ public:
     void despawnPowerup();
     void activatePowerup(int,int);
     void deactivatePowerup(int,int);
+    void centerPowerup();
 
 protected:
     void keyPressEvent(QKeyEvent*);

@@ -313,3 +313,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     }
 }
+
+void MainWindow::centerPowerup()
+{
+    ui->powerup->move(ui->gameField->x() + ui->gameField->width()/2 - ui->powerup->width()/2, ui->gameField->y() + ui->gameField->height()/2 - ui->powerup->height()/2);
+}
