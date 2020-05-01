@@ -174,27 +174,22 @@ void *thread_producer_fn(void *args)
                     {
                         if(ball.getXVelocity() > 0 && ball.getXVelocity() > SPEED_OFFSET)
                         {
-                            cout << "here1" << endl;
                             powerup1VelocityChanged = true;
                         }
                         else if (ball.getXVelocity() < 0 && ball.getXVelocity() < -SPEED_OFFSET)
                         {
-                            cout << "here2" << endl;
                             powerup1VelocityChanged = true;
                         }
                         if(ball.getYVelocity() > 0 && ball.getYVelocity() < SPEED_OFFSET)
                         {
-                            cout << "here3" << endl;
                             powerup1VelocityChanged = false;
                         }
                         else if(ball.getYVelocity() < 0 && ball.getYVelocity() > -SPEED_OFFSET)
                         {
-                            cout << "here4" << endl;
                             powerup1VelocityChanged = false;
                         }
 
                         if(powerup1VelocityChanged) {
-                            cout << "change velocity" << endl;
                             if(ball.getXVelocity() > 0 && ball.getXVelocity() > SPEED_OFFSET)
                             {
                                 ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
@@ -217,10 +212,6 @@ void *thread_producer_fn(void *args)
                                 ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
                                 powerup1Changed[3] = true;
                             }
-                        }
-                        else
-                        {
-                            cout << "not changing velocity" << endl;
                         }
                     }
                     // activate the corresponding powerup
@@ -315,7 +306,6 @@ void *thread_producer_fn(void *args)
         // increase speed gradually
         if(increase_speed == when_increase_speed-1) {
             ball.increaseSpeed();
-            cout << "Increasing speed: " << ball.getXVelocity() << " " << ball.getYVelocity() << endl;
         }
         increase_speed = (increase_speed+1)%when_increase_speed;
 
