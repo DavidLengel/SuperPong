@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#define SPEED_OFFSET 400
+#define SPEED_OFFSET 150
 
 class GameManager
 {

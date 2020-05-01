@@ -78,7 +78,7 @@ void TokenTimer::resetTimer()
 
 void TokenTimer::setTimerSize(int _full_token_count)
 {
-    full_token_count = _full_token_count;
+    full_token_count = abs(_full_token_count);
 }
 
 void TokenTimer::setTokenTime(int _usec_per_token)

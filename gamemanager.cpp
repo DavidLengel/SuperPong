@@ -87,7 +87,8 @@ void *thread_producer_fn(void *args)
     int lastGoalCollided = 0;
     int activePowerup = 0;
     int powerupCollidedPaddle = -1;
-    bool powerup1Activated = 0;
+    bool powerup1Changed[4] = {0,0,0,0};
+    bool powerup1XYPositive[2] = {0, 0};
     //int lastSpeedSetting = window->checkSelectedGameSpeed();
 
     window->moveBall(ball.getLocation().first, ball.getLocation().second);
@@ -119,7 +120,6 @@ void *thread_producer_fn(void *args)
                         lastGoalCollided = 0;
                         powerup.setLocationCenter();
                         window->centerPowerup();
-//                        powerup.setXVelocity(-powerup.getXVelocity());
                         break;
                     case 2:
                         window->despawnPowerup();
@@ -129,7 +129,6 @@ void *thread_producer_fn(void *args)
                         lastGoalCollided = 0;
                         powerup.setLocationCenter();
                         window->centerPowerup();
-//                        powerup.setXVelocity(-powerup.getXVelocity());
                         break;
                     case 4:
                         window->despawnPowerup();
@@ -139,7 +138,6 @@ void *thread_producer_fn(void *args)
                         lastGoalCollided = 0;
                         powerup.setLocationCenter();
                         window->centerPowerup();
-//                        powerup.setXVelocity(-powerup.getXVelocity());
                 }
                 powerup.setXVelocity(-powerup.getXVelocity());
             } // if(game_manager->powerup_spawn_timer.processTimer())
@@ -173,14 +171,28 @@ void *thread_producer_fn(void *args)
                 {
                     // set the active powerup
                     activePowerup = *powerup_state == 1 ? 1 : *powerup_state == 3 ? 2 : 3;
-                    cout << "Activating Powerup " << activePowerup << endl;
                     if (activePowerup == 1)
                     {
-                        if (ball.getXVelocity() > SPEED_OFFSET && ball.getYVelocity() > SPEED_OFFSET)
+                        if(ball.getXVelocity() > 0 && ball.getXVelocity() > SPEED_OFFSET)
                         {
                             ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
+                            powerup1Changed[0] = true;
+                            powerup1XYPositive[0] = true;
+                        }
+                        else if(ball.getXVelocity() < SPEED_OFFSET)
+                        {
+                            ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
+                            powerup1Changed[1] = true;
+                        }
+                        if(ball.getYVelocity() > 0 && ball.getYVelocity() > SPEED_OFFSET)
+                        {
                             ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
-                            powerup1Activated = 1;
+                            powerup1Changed[2] = true;
+                            powerup1XYPositive[1] = true;
+                        }
+                        else if(ball.getYVelocity() < SPEED_OFFSET) {
+                            ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
+                            powerup1Changed[3] = true;
                         }
                     }
                     // activate the corresponding powerup
@@ -195,13 +207,61 @@ void *thread_producer_fn(void *args)
         // if there is currently an active powerup and it needs to be deactivated
         else if(game_manager->powerup_active_timer.processTimer())
         {
-            cout << "Deactivating Powerup " << activePowerup << endl;
             // deactivate the powerup
-            if (activePowerup == 1 && powerup1Activated)
+            if (activePowerup == 1)
             {
-                ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
-                ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
-                powerup1Activated = 0;
+                if(ball.getXVelocity() > 0 && powerup1XYPositive[0]) {
+                    if(powerup1Changed[0])
+                    {
+                        ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
+                        powerup1Changed[0] = false;
+                    }
+                    else if(powerup1Changed[1])
+                    {
+                        ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
+                        powerup1Changed[1] = false;
+                    }
+                    powerup1XYPositive[0] = false;
+                }
+                else {
+                    if(powerup1Changed[0])
+                    {
+                        ball.setXVelocity(ball.getXVelocity() - SPEED_OFFSET);
+                        powerup1Changed[0] = false;
+                    }
+                    else if(powerup1Changed[1])
+                    {
+                        ball.setXVelocity(ball.getXVelocity() + SPEED_OFFSET);
+                        powerup1Changed[1] = false;
+                    }
+                }
+                if(ball.getYVelocity() > 0 && powerup1XYPositive[1])
+                {
+                    if(powerup1Changed[2])
+                    {
+                        ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
+                        powerup1Changed[2] = false;
+                    }
+                    else if(powerup1Changed[3])
+                    {
+                        ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
+                        powerup1Changed[3] = false;
+                    }
+                    powerup1XYPositive[1] = false;
+                }
+                else
+                {
+                    if(powerup1Changed[2])
+                    {
+                        ball.setYVelocity(ball.getYVelocity() - SPEED_OFFSET);
+                        powerup1Changed[2] = false;
+                    }
+                    else if(powerup1Changed[3])
+                    {
+                        ball.setYVelocity(ball.getYVelocity() + SPEED_OFFSET);
+                        powerup1Changed[3] = false;
+                    }
+                }
             }
             else
             {
