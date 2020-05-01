@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
     grabKeyboard();
     setUpMenu();
     setUpPowerupLabels();
+
+    QPixmap pixmapTarget = QPixmap("/home/images/SuperPongLogo.png");
+    ui->SuperPongLabel->setPixmap(pixmapTarget);
 }
 
 MainWindow::~MainWindow()

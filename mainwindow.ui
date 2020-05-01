@@ -3634,6 +3634,28 @@ color: red;</string>
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="SuperPongLabel">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>50</y>
+      <width>281</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Images/SuperPongLogo.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>gameField</zorder>
    <zorder>p1ScoreLabel</zorder>
    <zorder>p1Score</zorder>
@@ -3655,6 +3677,7 @@ color: red;</string>
    <zorder>powerupChargeLabel</zorder>
    <zorder>powerupExtendLabel</zorder>
    <zorder>powerupShrinkLabel</zorder>
+   <zorder>SuperPongLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
